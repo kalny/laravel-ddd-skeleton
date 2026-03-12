@@ -1,0 +1,48 @@
+services:
+  app:
+    build:
+      context: ./../
+      dockerfile: ./docker/php-fpm/Dockerfile
+      args:
+        - PUID=1000
+        - PGID=1000
+    volumes:
+      - ./../:/var/www/
+    depends_on:
+      - db
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - ${NGINX_PORT}:80
+    volumes:
+      - ..:/var/www:rw
+    depends_on:
+      - app
+  db:
+    build:
+      context: ./mariadb
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DB}
+    ports:
+      - ${DB_PORT}:3306
+  db_test:
+    build:
+      context: ./mariadb
+    volumes:
+      - db_test_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: username
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: db_test
+    ports:
+      - ${DB_TEST_PORT}:3306
+volumes:
+  db_data:
+  db_test_data:
