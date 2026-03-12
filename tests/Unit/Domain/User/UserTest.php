@@ -5,6 +5,9 @@ namespace Tests\Unit\Domain\User;
 use App\Domain\Common\Email;
 use App\Domain\Common\Exceptions\InsufficientFundsException;
 use App\Domain\Common\Money;
+use App\Domain\User\Events\UserBalanceCredited;
+use App\Domain\User\Events\UserBalanceDebited;
+use App\Domain\User\Events\UserRegistered;
 use App\Domain\User\HashedPassword;
 use App\Domain\User\User;
 use App\Domain\User\UserId;
@@ -26,6 +29,16 @@ class UserTest extends TestCase
         );
 
         $this->assertTrue($user->getId()->equals($userId));
+
+        $events = $user->releaseEvents();
+
+        $this->assertCount(1, $events);
+
+        $this->assertEquals(new UserRegistered(
+            $userId,
+            UserName::fromString('username'),
+            Email::fromString('username@test.com')
+        ), $events[0]);
     }
 
     public function testUsersEqualsTrue(): void
@@ -85,7 +98,15 @@ class UserTest extends TestCase
 
         $user->credit(Money::fromInteger(1000));
 
-        //todo domain events
+        $events = $user->releaseEvents();
+
+        $this->assertCount(2, $events);
+
+        $this->assertEquals(new UserBalanceCredited(
+            $userId,
+            Money::fromInteger(1000),
+            Money::fromInteger(1000),
+        ), $events[1]);
     }
 
     public function testSuccessfullyDebitBalance(): void
@@ -102,7 +123,21 @@ class UserTest extends TestCase
         $user->credit(Money::fromInteger(1000));
         $user->debit(Money::fromInteger(1000));
 
-        //todo domain events
+        $events = $user->releaseEvents();
+
+        $this->assertCount(3, $events);
+
+        $this->assertEquals(new UserBalanceCredited(
+            $userId,
+            Money::fromInteger(1000),
+            Money::fromInteger(1000),
+        ), $events[1]);
+
+        $this->assertEquals(new UserBalanceDebited(
+            $userId,
+            Money::fromInteger(1000),
+            Money::fromInteger(0),
+        ), $events[2]);
     }
 
     public function testDebitUnsufficientFunds(): void
