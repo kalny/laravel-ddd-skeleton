@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Tests\TestCase;
+use Throwable;
 
 class EloquentUserRepositoryTest extends TestCase
 {
@@ -61,6 +62,7 @@ class EloquentUserRepositoryTest extends TestCase
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     * @throws Throwable
      */
     public function testSuccessfullySaveExistingUser(): void
     {
@@ -83,6 +85,9 @@ class EloquentUserRepositoryTest extends TestCase
         ]);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function testSuccessfullySaveNewUser(): void
     {
         $uuid = Str::uuid()->toString();

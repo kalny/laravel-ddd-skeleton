@@ -13,11 +13,19 @@ use App\Domain\User\UserId;
 use App\Domain\User\UserName;
 use App\Infrastructure\Persistence\Eloquent\Models\User as UserModel;
 use App\Infrastructure\Services\ReflectionService;
+use Throwable;
 
 class EloquentUserRepository implements UserRepository
 {
     public function __construct(private readonly ReflectionService $reflectionService)
     {
+    }
+
+    public function existsByEmail(Email $email): bool
+    {
+       return UserModel::query()
+            ->where('email', $email->getValue())
+            ->exists();
     }
 
     public function get(UserId $id): User
@@ -45,6 +53,9 @@ class EloquentUserRepository implements UserRepository
         return $userEntity;
     }
 
+    /**
+     * @throws Throwable
+     */
     public function save(User $user): void
     {
         /** @var UuidId $userUuidId */
@@ -66,6 +77,6 @@ class EloquentUserRepository implements UserRepository
         $userModel->password = $this->reflectionService->getValue($user, 'password')->getValue();
         $userModel->balance = $this->reflectionService->getValue($balance, 'amount');
 
-        $userModel->save();
+        $userModel->saveOrFail();
     }
 }

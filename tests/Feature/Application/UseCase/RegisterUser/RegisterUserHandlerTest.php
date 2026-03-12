@@ -1,0 +1,65 @@
+<?php
+
+namespace Tests\Feature\Application\UseCase\RegisterUser;
+
+use App\Application\UseCase\RegisterUser\RegisterUserCommand;
+use App\Application\UseCase\RegisterUser\RegisterUserHandler;
+use App\Domain\User\Events\UserRegistered;
+use App\Domain\User\Exceptions\UserAlreadyExistsException;
+use App\Infrastructure\Persistence\Eloquent\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Event;
+use Tests\TestCase;
+
+class RegisterUserHandlerTest extends TestCase
+{
+    use RefreshDatabase;
+    use WithFaker;
+
+    private RegisterUserHandler $handler;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Event::fake();
+
+        $this->handler = app(RegisterUserHandler::class);
+    }
+
+    public function testHandleSuccessfully(): void
+    {
+        $command = new RegisterUserCommand(
+            name: 'username',
+            email: 'username@test.com',
+            password: 'password',
+        );
+
+        $this->handler->handle($command);
+
+        $this->assertDatabaseHas('users', [
+            'name' => 'username',
+            'email' => 'username@test.com'
+        ]);
+
+        Event::assertDispatched(UserRegistered::class);
+    }
+
+    public function testHandleUserAlreadyExists(): void
+    {
+        $this->expectException(UserAlreadyExistsException::class);
+
+        User::factory()->create([
+            'email' => 'username@test.com',
+        ]);
+
+        $command = new RegisterUserCommand(
+            name: 'username',
+            email: 'username@test.com',
+            password: 'password',
+        );
+
+        $this->handler->handle($command);
+    }
+}
