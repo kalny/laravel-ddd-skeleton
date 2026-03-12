@@ -25,25 +25,33 @@ final class RegisterUserHandler
     ) {
     }
 
-    public function handle(RegisterUserCommand $command): void
+    public function handle(RegisterUserCommand $command): RegisterUserResult
     {
         if ($this->users->existsByEmail(Email::fromString($command->email))) {
             throw UserAlreadyExistsException::withValue($command->email);
         }
 
+        $id = $this->idGenerator->generate();
+
         $user = User::register(
-            UserId::fromString($this->idGenerator->generate()),
+            UserId::fromString($id),
             UserName::fromString($command->name),
             Email::fromString($command->email),
             $this->hasher->hash(PlainPassword::fromString($command->password))
         );
 
-        $this->transactionManager->transactional(function () use ($user) {
+        return $this->transactionManager->transactional(function () use ($user, $command, $id) {
             $this->users->save($user);
 
             foreach ($user->releaseEvents() as $event) {
                 $this->dispatcher->dispatch($event);
             }
+
+            return new RegisterUserResult(
+                id: $id,
+                name: $command->name,
+                email: $command->email
+            );
         });
     }
 }

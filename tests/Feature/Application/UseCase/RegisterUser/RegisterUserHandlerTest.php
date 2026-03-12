@@ -8,14 +8,12 @@ use App\Domain\User\Events\UserRegistered;
 use App\Domain\User\Exceptions\UserAlreadyExistsException;
 use App\Infrastructure\Persistence\Eloquent\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class RegisterUserHandlerTest extends TestCase
 {
     use RefreshDatabase;
-    use WithFaker;
 
     private RegisterUserHandler $handler;
 
@@ -36,7 +34,10 @@ class RegisterUserHandlerTest extends TestCase
             password: 'password',
         );
 
-        $this->handler->handle($command);
+        $result = $this->handler->handle($command);
+
+        $this->assertEquals('username', $result->name);
+        $this->assertEquals('username@test.com', $result->email);
 
         $this->assertDatabaseHas('users', [
             'name' => 'username',
