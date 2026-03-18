@@ -44,7 +44,7 @@ class EloquentUserRepositoryTest extends TestCase
 
         $user = $this->users->get(UserId::fromString($uuid));
 
-        $this->assertTrue($user->getId()->equals(UserId::fromString($userModel->id)));
+        $this->assertTrue($user->id()->equals(UserId::fromString($userModel->id)));
     }
 
     /**

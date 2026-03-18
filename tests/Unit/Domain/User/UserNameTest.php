@@ -35,4 +35,20 @@ class UserNameTest extends TestCase
 
         UserName::fromString(' ');
     }
+
+    public function testEqualsTrue(): void
+    {
+        $userName = UserName::fromString('test_user');
+        $sameUserName = UserName::fromString('test_user');
+
+        $this->assertTrue($userName->equals($sameUserName));
+    }
+
+    public function testEqualsFalse(): void
+    {
+        $userName = UserName::fromString('test_user');
+        $otherUserName = UserName::fromString('other_test_user');
+
+        $this->assertFalse($userName->equals($otherUserName));
+    }
 }

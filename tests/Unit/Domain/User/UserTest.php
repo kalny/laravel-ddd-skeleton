@@ -7,6 +7,7 @@ use App\Domain\Common\Exceptions\InsufficientFundsException;
 use App\Domain\Common\Money;
 use App\Domain\User\Events\UserBalanceCredited;
 use App\Domain\User\Events\UserBalanceDebited;
+use App\Domain\User\Events\UserNameChanged;
 use App\Domain\User\Events\UserRegistered;
 use App\Domain\User\HashedPassword;
 use App\Domain\User\User;
@@ -28,7 +29,7 @@ class UserTest extends TestCase
             HashedPassword::fromHash('password'),
         );
 
-        $this->assertTrue($user->getId()->equals($userId));
+        $this->assertTrue($user->id()->equals($userId));
 
         $events = $user->releaseEvents();
 
@@ -154,5 +155,46 @@ class UserTest extends TestCase
         );
 
         $user->debit(Money::fromInteger(1000));
+    }
+
+    public function testChangeUserNameToSameName(): void
+    {
+        $userId = UserId::fromString(Str::uuid()->toString());
+
+        $user = User::register(
+            $userId,
+            UserName::fromString('username'),
+            Email::fromString('username@test.com'),
+            HashedPassword::fromHash('password'),
+        );
+
+        $user->changeName(UserName::fromString('username'));
+
+        $events = $user->releaseEvents();
+
+        $this->assertCount(1, $events);
+    }
+
+    public function testChangeUserNameToOtherName(): void
+    {
+        $userId = UserId::fromString(Str::uuid()->toString());
+
+        $user = User::register(
+            $userId,
+            UserName::fromString('username'),
+            Email::fromString('username@test.com'),
+            HashedPassword::fromHash('password'),
+        );
+
+        $user->changeName(UserName::fromString('other_username'));
+
+        $events = $user->releaseEvents();
+
+        $this->assertCount(2, $events);
+
+        $this->assertEquals(new UserNameChanged(
+            $userId,
+            UserName::fromString('other_username')
+        ), $events[1]);
     }
 }

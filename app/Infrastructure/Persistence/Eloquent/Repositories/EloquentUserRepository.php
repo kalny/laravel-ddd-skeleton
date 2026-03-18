@@ -59,7 +59,7 @@ class EloquentUserRepository implements UserRepository
     public function save(User $user): void
     {
         /** @var UuidId $userUuidId */
-        $userUuidId = $this->reflectionService->getValue($user->getId(), 'uuid');
+        $userUuidId = $this->reflectionService->getValue($user->id(), 'uuid');
 
         $userModel = UserModel::query()
             ->where('id', $userUuidId->getValue())
@@ -71,7 +71,7 @@ class EloquentUserRepository implements UserRepository
 
         $balance =  $this->reflectionService->getValue($user, 'balance');
 
-        $userModel->id = $this->reflectionService->getValue($user->getId(), 'uuid')->getValue();
+        $userModel->id = $this->reflectionService->getValue($user->id(), 'uuid')->getValue();
         $userModel->name = $this->reflectionService->getValue($user, 'name')->getValue();
         $userModel->email = $this->reflectionService->getValue($user, 'email')->getValue();
         $userModel->password = $this->reflectionService->getValue($user, 'password')->getValue();
