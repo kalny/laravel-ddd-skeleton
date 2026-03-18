@@ -22,4 +22,9 @@ final readonly class UserId
     {
         return $this->uuid->getValue() === $other->uuid->getValue();
     }
+
+    public function value(): string
+    {
+        return $this->uuid->getValue();
+    }
 }
