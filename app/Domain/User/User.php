@@ -9,6 +9,7 @@ use App\Domain\Common\Money;
 use App\Domain\User\Events\UserBalanceCredited;
 use App\Domain\User\Events\UserBalanceDebited;
 use App\Domain\User\Events\UserNameChanged;
+use App\Domain\User\Events\UserPasswordChanged;
 use App\Domain\User\Events\UserRegistered;
 
 final class User extends AggregateRoot
@@ -19,7 +20,7 @@ final class User extends AggregateRoot
         private readonly UserId $id,
         private UserName $name,
         private readonly Email $email,
-        private readonly HashedPassword $password,
+        private HashedPassword $password,
     ) {
         $this->balance = Money::zero();
     }
@@ -72,5 +73,15 @@ final class User extends AggregateRoot
 
         $this->name = $newName;
         $this->record(new UserNameChanged($this->id, $newName));
+    }
+
+    public function changePassword(HashedPassword $newHashedPassword): void
+    {
+        if ($this->password->equals($newHashedPassword)) {
+            return;
+        }
+
+        $this->password = $newHashedPassword;
+        $this->record(new UserPasswordChanged($this->id));
     }
 }

@@ -17,9 +17,9 @@ class HashedPasswordTest extends TestCase
 
     public function testTrimHashedPasswordWhiteSpaces(): void
     {
-        $userName = HashedPassword::fromHash('  password  ');
+        $password = HashedPassword::fromHash('  password  ');
 
-        $this->assertSame('password', $userName->getValue());
+        $this->assertSame('password', $password->getValue());
     }
 
     public function testCreateHashedPasswordFromEmptyString(): void
@@ -27,5 +27,21 @@ class HashedPasswordTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         HashedPassword::fromHash(' ');
+    }
+
+    public function testEqualsTrue(): void
+    {
+        $password = HashedPassword::fromHash('hash1');
+        $samePassword = HashedPassword::fromHash('hash1');
+
+        $this->assertTrue($password->equals($samePassword));
+    }
+
+    public function testEqualsFalse(): void
+    {
+        $password = HashedPassword::fromHash('hash1');
+        $otherPassword = HashedPassword::fromHash('hash2');
+
+        $this->assertFalse($password->equals($otherPassword));
     }
 }

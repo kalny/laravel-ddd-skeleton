@@ -8,6 +8,7 @@ use App\Domain\Common\Money;
 use App\Domain\User\Events\UserBalanceCredited;
 use App\Domain\User\Events\UserBalanceDebited;
 use App\Domain\User\Events\UserNameChanged;
+use App\Domain\User\Events\UserPasswordChanged;
 use App\Domain\User\Events\UserRegistered;
 use App\Domain\User\HashedPassword;
 use App\Domain\User\User;
@@ -195,6 +196,46 @@ class UserTest extends TestCase
         $this->assertEquals(new UserNameChanged(
             $userId,
             UserName::fromString('other_username')
+        ), $events[1]);
+    }
+
+    public function testChangePasswordToSamePassword(): void
+    {
+        $userId = UserId::fromString(Str::uuid()->toString());
+
+        $user = User::register(
+            $userId,
+            UserName::fromString('username'),
+            Email::fromString('username@test.com'),
+            HashedPassword::fromHash('password'),
+        );
+
+        $user->changePassword(HashedPassword::fromHash('password'));
+
+        $events = $user->releaseEvents();
+
+        $this->assertCount(1, $events);
+    }
+
+    public function testChangePasswordToOtherPassword(): void
+    {
+        $userId = UserId::fromString(Str::uuid()->toString());
+
+        $user = User::register(
+            $userId,
+            UserName::fromString('username'),
+            Email::fromString('username@test.com'),
+            HashedPassword::fromHash('password'),
+        );
+
+        $user->changePassword(HashedPassword::fromHash('other_password'));
+
+        $events = $user->releaseEvents();
+
+        $this->assertCount(2, $events);
+
+        $this->assertEquals(new UserPasswordChanged(
+            $userId,
         ), $events[1]);
     }
 }

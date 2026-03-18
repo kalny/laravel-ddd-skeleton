@@ -22,4 +22,9 @@ final readonly class HashedPassword
     {
         return $this->hash;
     }
+
+    public function equals(self $other): bool
+    {
+        return $this->hash === $other->hash;
+    }
 }
