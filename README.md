@@ -1,18 +1,23 @@
 # Laravel DDD Skeleton
 
+[![Build Status](https://github.com/kalny/laravel-ddd-skeleton/actions/workflows/tests.yml/badge.svg)](https://github.com/kalny/laravel-ddd-skeleton/actions/workflows/tests.yml)
 [![codecov](https://codecov.io/github/kalny/laravel-ddd-skeleton/graph/badge.svg?token=AZ8QKOQNHL)](https://codecov.io/github/kalny/laravel-ddd-skeleton)
 
 A starter template for building **Domain-Driven Design (DDD)** applications with Laravel.
 
 This repository demonstrates how to organize a Laravel project using a **clean architecture approach**, separating business logic from framework and infrastructure concerns.
 
-The project includes a fully working **user registration example** that shows how all layers interact: Domain, Application, Infrastructure, API, and tests.
+Includes a fully working **User Registration example** that shows how all layers interact: Domain, Application, Infrastructure, API, and tests.
 
 ---
 
-# Architecture
+# Architecture Overview
 
-The project follows a layered DDD architecture:
+```
+[HTTP Request] → [Controller] → [UseCase] → [Domain Entities & ValueObjects] → [Infrastructure Repository] → [Database]
+```
+
+Folder structure:
 
 ```
 app
@@ -38,7 +43,7 @@ app
       └── Services
 ```
 
-### Layer responsibilities
+### Layer Responsibilities
 
 **Domain**
 - Pure business logic
@@ -46,14 +51,13 @@ app
 - No framework dependencies
 
 **Application**
-- Use cases
-- Application services interface
+- Use Cases and Application Services Interfaces
 - Coordinates domain objects
 - Independent from Laravel
 
 **Infrastructure**
 - Database implementation
-- Application services realization
+- Application Services realization
 - External integrations
 
 ---
@@ -61,13 +65,13 @@ app
 # Features
 
 - Predefined **DDD directory structure**
-- Example **User Registration flow**
+- Fully working **User Registration flow**
 - Clean **Domain Model**
-- **Application layer independent from the framework**
+- **Application layer independent from framework**
 - Infrastructure layer contains all technical implementations
-- **Domain Events** support (example listeners write events to logs)
-- **Unit tests and Feature tests**
-- Preconfigured **Docker environment**
+- **Domain Events** support (example listeners log events)
+- **Unit & Feature tests**
+- Preconfigured **Docker + docker-compose** for local development
 
 ---
 
@@ -80,12 +84,12 @@ git clone https://github.com/kalny/laravel-ddd-skeleton.git
 cd laravel-ddd-skeleton
 ```
 
-Setup environment:
+Set up environment files:
 
 ```bash
 cp .env.example .env
-cp .env.testinf.example .env.testing
-# then set up variables in .env and .env.testing files
+cp .env.testing.example .env.testing
+# edit variables in .env and .env.testing as needed
 ```
 
 Install dependencies:
@@ -108,8 +112,8 @@ php artisan migrate --env=testing
 Create docker environment:
 
 ```bash
-cp docker/.env.example .env
-# then set up variables in .env file
+cp docker/.env.example docker/.env
+# edit variables in .env as needed
 ```
 
 Build containers:
@@ -118,7 +122,7 @@ Build containers:
 make build
 ```
 
-Start the project:
+Start containers:
 
 ```bash
 make start
@@ -134,7 +138,7 @@ Enter the container:
 make shell
 ```
 
-Run tests:
+Run all tests:
 
 ```bash
 php artisan test
@@ -160,6 +164,16 @@ Request body:
 }
 ```
 
+Example response:
+
+```json
+{
+  "id": "63a5e14f-d26d-48b7-81a7-c568a1c17a75",
+  "name": "username",
+  "email": "username@gmail.com"
+}
+```
+
 ---
 
 # Why This Project
@@ -171,7 +185,10 @@ This skeleton demonstrates how to build **maintainable Laravel applications usin
 - Clear separation of responsibilities
 - Easy scaling for complex domains
 
-It can be used as a **starting point for production projects** or as a **learning reference for DDD in Laravel**.
+**Use cases**:
+
+- Learning DDD in Laravel
+- Starting point for production projects
 
 ---
 
