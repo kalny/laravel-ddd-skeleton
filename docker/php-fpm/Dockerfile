@@ -19,6 +19,12 @@ RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS imagemagick-dev \
 && docker-php-ext-enable imagick \
 && apk del .build-deps
 
+# PCOV
+RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
+&& pecl install pcov \
+&& docker-php-ext-enable pcov \
+&& apk del .build-deps
+
 #GD
 RUN docker-php-ext-install gd
 
@@ -38,6 +44,9 @@ WORKDIR /var/www
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 #RUN composer install --no-interaction
+
+# PCOV ini include
+COPY ./docker/php-fpm/conf.d/pcov.ini /usr/local/etc/php/conf.d/pcov.ini
 
 CMD php-fpm
 

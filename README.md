@@ -1,5 +1,7 @@
 # Laravel DDD Skeleton
 
+[![codecov](https://codecov.io/github/kalny/laravel-ddd-skeleton/graph/badge.svg?token=AZ8QKOQNHL)](https://codecov.io/github/kalny/laravel-ddd-skeleton)
+
 A starter template for building **Domain-Driven Design (DDD)** applications with Laravel.
 
 This repository demonstrates how to organize a Laravel project using a **clean architecture approach**, separating business logic from framework and infrastructure concerns.
