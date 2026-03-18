@@ -176,6 +176,49 @@ Example response:
 
 ---
 
+# Example Use Cases
+
+### Register User (simplified)
+
+```php
+if ($this->users->existsByEmail(Email::fromString($command->email))) {
+    throw UserAlreadyExistsException::withValue($command->email);
+}
+
+$id = $this->idGenerator->generate();
+
+$user = User::register(
+    UserId::fromString($id),
+    UserName::fromString($command->name),
+    Email::fromString($command->email),
+    $this->hasher->hash(PlainPassword::fromString($command->password))
+);
+
+$this->users->save($user);
+```
+
+### Change Username (simplified)
+
+```php
+$user = $this->users->get($id);
+
+$user->changeName(UserName::fromString('new_name'));
+
+$this->users->save($user);
+```
+
+### Change User Password (simplified)
+
+```php
+$user = $this->users->get($id);
+
+$user->changePassword(
+    $this->hasher->hash(PlainPassword::fromString($command->password))
+);
+
+$this->users->save($user);
+```
+
 # Why This Project
 
 This skeleton demonstrates how to build **maintainable Laravel applications using DDD principles**:
