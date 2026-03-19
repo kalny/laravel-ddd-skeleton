@@ -50,7 +50,10 @@ app
            │    └── Eloquent
            │         ├── Model
            │         └── Repository
-           └── Services
+           ├── Services
+           ├── DomainEventListeners
+           ├── IntegrationEvent
+           └── IntegrationEventListeners
 ```
 
 ### Layer Responsibilities

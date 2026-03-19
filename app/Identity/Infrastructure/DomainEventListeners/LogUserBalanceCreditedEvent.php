@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Identity\Infrastructure\Listeners;
+namespace App\Identity\Infrastructure\DomainEventListeners;
 
 use App\Identity\Domain\User\Event\UserBalanceCredited;
 use Illuminate\Support\Facades\Log;
