@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Infrastructure\Listeners;
 
-use App\Domain\User\Events\UserBalanceCredited;
+use App\Domain\User\Events\UserNameChanged;
 use Illuminate\Support\Facades\Log;
 
-class LogUserBalanceCreditedEvent
+class LogUserNameChangedEvent
 {
     /**
      * Create the event listener.
@@ -17,9 +17,9 @@ class LogUserBalanceCreditedEvent
     /**
      * Handle the event.
      */
-    public function handle(UserBalanceCredited $event): void
+    public function handle(UserNameChanged $event): void
     {
-        Log::channel('events')->info('UserBalanceCredited', [
+        Log::channel('events')->info('UserNameChanged', [
             'user_id' => $event->id->value()
         ]);
     }
