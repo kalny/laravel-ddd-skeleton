@@ -2,7 +2,7 @@
 
 namespace App\Application\UseCase\RegisterUser;
 
-use App\Application\Ports\TransactionManager;
+use App\Application\Services\TransactionManager;
 use App\Application\Services\EventDispatcher;
 use App\Application\Services\IdGenerator;
 use App\Application\Services\PasswordHasher;

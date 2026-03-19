@@ -30,9 +30,10 @@ app
  │         └── Repository
  │
  ├── Application
- │    ├── Ports
  │    ├── Services
  │    └── UseCase
+ │         ├── ChangeUserName
+ │         ├── ChangeUserPassword
  │         └── RegisterUser
  │
  └── Infrastructure

@@ -2,7 +2,7 @@
 
 namespace App\Application\UseCase\ChangeUserPassword;
 
-use App\Application\Ports\TransactionManager;
+use App\Application\Services\TransactionManager;
 use App\Application\Services\EventDispatcher;
 use App\Application\Services\PasswordHasher;
 use App\Domain\User\PlainPassword;

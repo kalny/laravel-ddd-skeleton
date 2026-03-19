@@ -2,7 +2,7 @@
 
 namespace App\Application\UseCase\ChangeUserName;
 
-use App\Application\Ports\TransactionManager;
+use App\Application\Services\TransactionManager;
 use App\Application\Services\EventDispatcher;
 use App\Domain\User\Repository\UserRepository;
 use App\Domain\User\UserId;

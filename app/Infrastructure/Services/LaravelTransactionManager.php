@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Services;
 
-use App\Application\Ports\TransactionManager;
+use App\Application\Services\TransactionManager;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
