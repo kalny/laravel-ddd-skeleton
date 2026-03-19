@@ -21,27 +21,36 @@ Folder structure:
 
 ```
 app
- ├── Domain
- │    ├── Common
- │    │    └── Exceptions 
- │    └── User
- │         ├── Events
- │         ├── Exceptions
- │         └── Repository
- │
- ├── Application
- │    ├── Services
- │    └── UseCase
- │         ├── ChangeUserName
- │         ├── ChangeUserPassword
- │         └── RegisterUser
- │
- └── Infrastructure
-      ├── Persistence
-      │    └── Eloquent
-      │         ├── Models
-      │         └── Repositories
-      └── Services
+ ├── Shared
+ │    ├── Domain
+ │    │    ├── Exception
+ │    │    └── ValueObject
+ │    ├── Application
+ │    │    └── Services
+ │    └── Infrastructure
+ │         └── Services
+ └── Identity
+      ├── Domain
+      │    ├── Common
+      │    │    └── Exception
+      │    └── User
+      │         ├── Events
+      │         ├── Exception
+      │         └── Repository
+      │
+      ├── Application
+      │    ├── Services
+      │    └── UseCase
+      │         ├── ChangeUserName
+      │         ├── ChangeUserPassword
+      │         └── RegisterUser
+      │
+      └── Infrastructure
+           ├── Persistence
+           │    └── Eloquent
+           │         ├── Model
+           │         └── Repository
+           └── Services
 ```
 
 ### Layer Responsibilities

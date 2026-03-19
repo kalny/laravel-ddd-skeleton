@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\API\User;
 
-use App\Application\UseCase\ChangeUserPassword\ChangeUserPasswordCommand;
+use App\Identity\Application\UseCase\ChangeUserPassword\ChangeUserPasswordCommand;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 

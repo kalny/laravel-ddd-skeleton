@@ -19,6 +19,6 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withEvents(discover: [
-        __DIR__.'/../app/Infrastructure/Listeners'
+        __DIR__.'/../app/Identity/Infrastructure/Listeners'
     ])
     ->create();

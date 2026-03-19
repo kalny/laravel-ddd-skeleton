@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Application\UseCase\ChangeUserName\ChangeUserNameHandler;
-use App\Application\UseCase\ChangeUserPassword\ChangeUserPasswordHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\User\ChangeUserNameRequest;
 use App\Http\Requests\API\User\ChangeUserPasswordRequest;
+use App\Identity\Application\UseCase\ChangeUserName\ChangeUserNameHandler;
+use App\Identity\Application\UseCase\ChangeUserPassword\ChangeUserPasswordHandler;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller

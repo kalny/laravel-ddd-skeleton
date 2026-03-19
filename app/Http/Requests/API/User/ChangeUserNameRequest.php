@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\API\User;
 
-use App\Application\UseCase\ChangeUserName\ChangeUserNameCommand;
+use App\Identity\Application\UseCase\ChangeUserName\ChangeUserNameCommand;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 

@@ -2,16 +2,16 @@
 
 namespace App\Providers;
 
-use App\Application\Services\TransactionManager;
-use App\Application\Services\EventDispatcher;
-use App\Application\Services\IdGenerator;
-use App\Application\Services\PasswordHasher;
-use App\Domain\User\Repository\UserRepository;
-use App\Infrastructure\Persistence\Eloquent\Repositories\EloquentUserRepository;
-use App\Infrastructure\Services\LaravelEventDispatcher;
-use App\Infrastructure\Services\LaravelIdGenerator;
-use App\Infrastructure\Services\LaravelPasswordHasher;
-use App\Infrastructure\Services\LaravelTransactionManager;
+use App\Identity\Application\Services\PasswordHasher;
+use App\Identity\Domain\User\Repository\UserRepository;
+use App\Identity\Infrastructure\Persistence\Eloquent\Repositoriy\EloquentUserRepository;
+use App\Identity\Infrastructure\Services\LaravelPasswordHasher;
+use App\Shared\Application\Services\EventDispatcher;
+use App\Shared\Application\Services\IdGenerator;
+use App\Shared\Application\Services\TransactionManager;
+use App\Shared\Infrastructure\Services\LaravelEventDispatcher;
+use App\Shared\Infrastructure\Services\LaravelIdGenerator;
+use App\Shared\Infrastructure\Services\LaravelTransactionManager;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\ServiceProvider;
 

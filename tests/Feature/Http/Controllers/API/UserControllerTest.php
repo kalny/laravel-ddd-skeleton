@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\API;
 
-use App\Infrastructure\Persistence\Eloquent\Models\User;
+use App\Identity\Infrastructure\Persistence\Eloquent\Model\User;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
