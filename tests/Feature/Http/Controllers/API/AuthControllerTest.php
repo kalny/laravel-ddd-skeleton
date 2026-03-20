@@ -19,7 +19,6 @@ class AuthControllerTest extends TestCase
     public function testRegisterSuccessfully(): void
     {
         $payload = [
-            'name' => 'username',
             'email' => 'username@test.com',
             'password' => 'password',
         ];
@@ -30,15 +29,12 @@ class AuthControllerTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 'id',
-                'name',
                 'email',
             ]
         ]);
-        $response->assertJsonPath('data.name', 'username');
         $response->assertJsonPath('data.email', 'username@test.com');
 
         $this->assertDatabaseHas('users', [
-            'name' => 'username',
             'email' => 'username@test.com'
         ]);
     }

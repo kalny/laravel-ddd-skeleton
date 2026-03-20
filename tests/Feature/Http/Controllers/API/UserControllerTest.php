@@ -22,35 +22,9 @@ class UserControllerTest extends TestCase
         $this->hasher = app(Hasher::class);
     }
 
-    public function testChangeNameSuccessfully(): void
-    {
-        $userModel = User::factory()->create([
-            'name' => 'username',
-            'email' => 'username@gmail.com',
-            'password' => 'password',
-        ]);
-
-        $payload = [
-            'name' => 'new_username',
-        ];
-
-        $response = $this->postJson(
-            route('api.users.change-name', ['id' => $userModel->id]),
-            $payload
-        );
-
-        $response->assertStatus(200);
-
-        $this->assertDatabaseHas('users', [
-            'id' => $userModel->id,
-            'name' => 'new_username',
-        ]);
-    }
-
     public function testChangePasswordSuccessfully(): void
     {
         $userModel = User::factory()->create([
-            'name' => 'username',
             'email' => 'username@gmail.com',
             'password' => 'password',
         ]);

@@ -9,7 +9,6 @@ use App\Identity\Domain\User\HashedPassword;
 use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Domain\User\User;
 use App\Identity\Domain\User\UserId;
-use App\Identity\Domain\User\UserName;
 use App\Identity\Infrastructure\Persistence\Eloquent\Models\User as UserModel;
 use App\Shared\Domain\ValueObjects\UuidId;
 use App\Shared\Infrastructure\Services\ReflectionService;
@@ -44,7 +43,6 @@ class EloquentUserRepository implements UserRepository
         /** @var User $userEntity */
         $userEntity = $this->reflectionService->createObject(User::class, [
             'id' => UserId::fromString($userModel->id),
-            'name' => UserName::fromString($userModel->name),
             'email' => Email::fromString($userModel->email),
             'password' => HashedPassword::fromHash($userModel->password),
             'balance' => Money::fromInteger($userModel->balance),
@@ -72,7 +70,6 @@ class EloquentUserRepository implements UserRepository
         $balance =  $this->reflectionService->getValue($user, 'balance');
 
         $userModel->id = $this->reflectionService->getValue($user->id(), 'uuid')->getValue();
-        $userModel->name = $this->reflectionService->getValue($user, 'name')->getValue();
         $userModel->email = $this->reflectionService->getValue($user, 'email')->getValue();
         $userModel->password = $this->reflectionService->getValue($user, 'password')->getValue();
         $userModel->balance = $this->reflectionService->getValue($balance, 'amount');

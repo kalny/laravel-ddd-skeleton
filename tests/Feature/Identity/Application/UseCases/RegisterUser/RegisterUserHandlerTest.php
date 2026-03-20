@@ -29,18 +29,15 @@ class RegisterUserHandlerTest extends TestCase
     public function testHandleSuccessfully(): void
     {
         $command = new RegisterUserCommand(
-            name: 'username',
             email: 'username@test.com',
             password: 'password',
         );
 
         $result = $this->handler->handle($command);
 
-        $this->assertEquals('username', $result->name);
         $this->assertEquals('username@test.com', $result->email);
 
         $this->assertDatabaseHas('users', [
-            'name' => 'username',
             'email' => 'username@test.com'
         ]);
 
@@ -56,7 +53,6 @@ class RegisterUserHandlerTest extends TestCase
         ]);
 
         $command = new RegisterUserCommand(
-            name: 'username',
             email: 'username@test.com',
             password: 'password',
         );

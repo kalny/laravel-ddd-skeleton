@@ -26,7 +26,6 @@ class LogUserRegisteredEvent
 
         event(new UserRegisteredIntegrationEvent(
             id: $event->id->value(),
-            name: $event->name->getValue(),
             email: $event->email->getValue()
         ));
     }

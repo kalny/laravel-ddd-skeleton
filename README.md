@@ -41,7 +41,6 @@ app
       ├── Application
       │    ├── Services
       │    └── UseCases
-      │         ├── ChangeUserName
       │         ├── ChangeUserPassword
       │         └── RegisterUser
       │
@@ -171,7 +170,6 @@ Request body:
 
 ```json
 {
-  "name": "username",
   "email": "username@gmail.com",
   "password": "password"
 }
@@ -182,7 +180,6 @@ Example response:
 ```json
 {
   "id": "63a5e14f-d26d-48b7-81a7-c568a1c17a75",
-  "name": "username",
   "email": "username@gmail.com"
 }
 ```
@@ -202,20 +199,9 @@ $id = $this->idGenerator->generate();
 
 $user = User::register(
     UserId::fromString($id),
-    UserName::fromString($command->name),
     Email::fromString($command->email),
     $this->hasher->hash(PlainPassword::fromString($command->password))
 );
-
-$this->users->save($user);
-```
-
-### Change Username (simplified)
-
-```php
-$user = $this->users->get($id);
-
-$user->changeName(UserName::fromString('new_name'));
 
 $this->users->save($user);
 ```

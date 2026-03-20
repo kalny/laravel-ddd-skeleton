@@ -7,13 +7,11 @@ use App\Identity\Domain\Common\Exceptions\InsufficientFundsException;
 use App\Identity\Domain\Common\Money;
 use App\Identity\Domain\User\Events\UserBalanceCredited;
 use App\Identity\Domain\User\Events\UserBalanceDebited;
-use App\Identity\Domain\User\Events\UserNameChanged;
 use App\Identity\Domain\User\Events\UserPasswordChanged;
 use App\Identity\Domain\User\Events\UserRegistered;
 use App\Identity\Domain\User\HashedPassword;
 use App\Identity\Domain\User\User;
 use App\Identity\Domain\User\UserId;
-use App\Identity\Domain\User\UserName;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -25,7 +23,6 @@ class UserTest extends TestCase
 
         $user = User::register(
             $userId,
-            UserName::fromString('username'),
             Email::fromString('username@test.com'),
             HashedPassword::fromHash('password'),
         );
@@ -38,7 +35,6 @@ class UserTest extends TestCase
 
         $this->assertEquals(new UserRegistered(
             $userId,
-            UserName::fromString('username'),
             Email::fromString('username@test.com')
         ), $events[0]);
     }
@@ -50,7 +46,6 @@ class UserTest extends TestCase
         $firstUserId = UserId::fromString($uuid);
         $firstUser = User::register(
             $firstUserId,
-            UserName::fromString('username'),
             Email::fromString('username@test.com'),
             HashedPassword::fromHash('password'),
         );
@@ -58,7 +53,6 @@ class UserTest extends TestCase
         $secondUserId = UserId::fromString($uuid);
         $secondUser = User::register(
             $secondUserId,
-            UserName::fromString('username2'),
             Email::fromString('username2@test.com'),
             HashedPassword::fromHash('password'),
         );
@@ -71,7 +65,6 @@ class UserTest extends TestCase
         $firstUserId = UserId::fromString(Str::uuid()->toString());
         $firstUser = User::register(
             $firstUserId,
-            UserName::fromString('username'),
             Email::fromString('username@test.com'),
             HashedPassword::fromHash('password'),
         );
@@ -79,7 +72,6 @@ class UserTest extends TestCase
         $secondUserId = UserId::fromString(Str::uuid()->toString());
         $secondUser = User::register(
             $secondUserId,
-            UserName::fromString('username2'),
             Email::fromString('username2@test.com'),
             HashedPassword::fromHash('password'),
         );
@@ -93,7 +85,6 @@ class UserTest extends TestCase
 
         $user = User::register(
             $userId,
-            UserName::fromString('username'),
             Email::fromString('username@test.com'),
             HashedPassword::fromHash('password'),
         );
@@ -117,7 +108,6 @@ class UserTest extends TestCase
 
         $user = User::register(
             $userId,
-            UserName::fromString('username'),
             Email::fromString('username@test.com'),
             HashedPassword::fromHash('password'),
         );
@@ -150,53 +140,11 @@ class UserTest extends TestCase
 
         $user = User::register(
             $userId,
-            UserName::fromString('username'),
             Email::fromString('username@test.com'),
             HashedPassword::fromHash('password'),
         );
 
         $user->debit(Money::fromInteger(1000));
-    }
-
-    public function testChangeUserNameToSameName(): void
-    {
-        $userId = UserId::fromString(Str::uuid()->toString());
-
-        $user = User::register(
-            $userId,
-            UserName::fromString('username'),
-            Email::fromString('username@test.com'),
-            HashedPassword::fromHash('password'),
-        );
-
-        $user->changeName(UserName::fromString('username'));
-
-        $events = $user->releaseEvents();
-
-        $this->assertCount(1, $events);
-    }
-
-    public function testChangeUserNameToOtherName(): void
-    {
-        $userId = UserId::fromString(Str::uuid()->toString());
-
-        $user = User::register(
-            $userId,
-            UserName::fromString('username'),
-            Email::fromString('username@test.com'),
-            HashedPassword::fromHash('password'),
-        );
-
-        $user->changeName(UserName::fromString('other_username'));
-
-        $events = $user->releaseEvents();
-
-        $this->assertCount(2, $events);
-
-        $this->assertEquals(new UserNameChanged(
-            $userId,
-            UserName::fromString('other_username')
-        ), $events[1]);
     }
 
     public function testChangePasswordToSamePassword(): void
@@ -205,7 +153,6 @@ class UserTest extends TestCase
 
         $user = User::register(
             $userId,
-            UserName::fromString('username'),
             Email::fromString('username@test.com'),
             HashedPassword::fromHash('password'),
         );
@@ -223,7 +170,6 @@ class UserTest extends TestCase
 
         $user = User::register(
             $userId,
-            UserName::fromString('username'),
             Email::fromString('username@test.com'),
             HashedPassword::fromHash('password'),
         );

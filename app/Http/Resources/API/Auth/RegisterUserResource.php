@@ -18,7 +18,6 @@ class RegisterUserResource extends JsonResource
         /** @var RegisterUserResult $this */
         return [
             'id' => $this->id,
-            'name' => $this->name,
             'email' => $this->email,
         ];
     }

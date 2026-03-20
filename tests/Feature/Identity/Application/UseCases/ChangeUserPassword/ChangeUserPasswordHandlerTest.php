@@ -31,7 +31,6 @@ class ChangeUserPasswordHandlerTest extends TestCase
     public function testHandleSuccessfully(): void
     {
         $userModel = User::factory()->create([
-            'name' => 'username',
             'email' => 'username@test.com',
             'password' => 'password',
         ]);

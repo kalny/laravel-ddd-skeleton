@@ -7,7 +7,6 @@ use App\Identity\Domain\Common\Money;
 use App\Identity\Domain\User\Exceptions\UserNotFoundException;
 use App\Identity\Domain\User\HashedPassword;
 use App\Identity\Domain\User\UserId;
-use App\Identity\Domain\User\UserName;
 use App\Identity\Infrastructure\Persistence\Eloquent\Models\User;
 use App\Identity\Infrastructure\Persistence\Eloquent\Repositories\EloquentUserRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -96,7 +95,6 @@ class EloquentUserRepositoryTest extends TestCase
 
         $user = \App\Identity\Domain\User\User::register(
             $userId,
-            UserName::fromString('username'),
             Email::fromString('username@test.com'),
             HashedPassword::fromHash('password_hash'),
         );
@@ -106,7 +104,6 @@ class EloquentUserRepositoryTest extends TestCase
         $this->assertDatabaseHas('users', [
             'id' => $uuid,
             'balance' => 0,
-            'name' => 'username',
             'email' => 'username@test.com',
             'password' => 'password_hash',
         ]);

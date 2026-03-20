@@ -8,7 +8,6 @@ use App\Identity\Domain\Common\Exceptions\InsufficientFundsException;
 use App\Identity\Domain\Common\Money;
 use App\Identity\Domain\User\Events\UserBalanceCredited;
 use App\Identity\Domain\User\Events\UserBalanceDebited;
-use App\Identity\Domain\User\Events\UserNameChanged;
 use App\Identity\Domain\User\Events\UserPasswordChanged;
 use App\Identity\Domain\User\Events\UserRegistered;
 
@@ -18,7 +17,6 @@ final class User extends AggregateRoot
 
     private function __construct(
         private readonly UserId $id,
-        private UserName $name,
         private readonly Email $email,
         private HashedPassword $password,
     ) {
@@ -27,13 +25,12 @@ final class User extends AggregateRoot
 
     public static function register(
         UserId $id,
-        UserName $name,
         Email $email,
         HashedPassword $password,
     ): self {
-        $user = new self($id, $name, $email, $password);
+        $user = new self($id, $email, $password);
 
-        $user->record(new UserRegistered($id, $name, $email));
+        $user->record(new UserRegistered($id, $email));
 
         return $user;
     }
@@ -63,16 +60,6 @@ final class User extends AggregateRoot
         $this->balance = $this->balance->add($money);
 
         $this->record(new UserBalanceCredited($this->id, $money, $this->balance));
-    }
-
-    public function changeName(UserName $newName): void
-    {
-        if ($this->name->equals($newName)) {
-            return;
-        }
-
-        $this->name = $newName;
-        $this->record(new UserNameChanged($this->id, $newName));
     }
 
     public function changePassword(HashedPassword $newHashedPassword): void

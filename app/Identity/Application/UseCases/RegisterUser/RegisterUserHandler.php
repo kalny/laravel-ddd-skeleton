@@ -9,7 +9,6 @@ use App\Identity\Domain\User\PlainPassword;
 use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Domain\User\User;
 use App\Identity\Domain\User\UserId;
-use App\Identity\Domain\User\UserName;
 use App\Shared\Application\Services\EventDispatcher;
 use App\Shared\Application\Services\IdGenerator;
 use App\Shared\Application\Services\TransactionManager;
@@ -35,7 +34,6 @@ final class RegisterUserHandler
 
         $user = User::register(
             UserId::fromString($id),
-            UserName::fromString($command->name),
             Email::fromString($command->email),
             $this->hasher->hash(PlainPassword::fromString($command->password))
         );
@@ -49,7 +47,6 @@ final class RegisterUserHandler
 
             return new RegisterUserResult(
                 id: $id,
-                name: $command->name,
                 email: $command->email
             );
         });
