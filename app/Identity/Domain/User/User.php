@@ -33,6 +33,11 @@ final class User extends AggregateRoot
         return $this->id;
     }
 
+    public function password(): HashedPassword
+    {
+        return $this->password;
+    }
+
     public function equals(User $other): bool
     {
         return $this->id->equals($other->id);

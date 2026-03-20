@@ -28,11 +28,8 @@ class EloquentUserRepository implements UserRepository
 
     public function get(UserId $id): User
     {
-        /** @var UuidId $userUuidId */
-        $userUuidId = $this->reflectionService->getValue($id, 'uuid');
-
         $userModel = UserModel::query()
-            ->where('id', $userUuidId->getValue())
+            ->where('id', $id->value())
             ->first();
 
         if (!$userModel) {
@@ -70,5 +67,25 @@ class EloquentUserRepository implements UserRepository
         $userModel->password = $this->reflectionService->getValue($user, 'password')->getValue();
 
         $userModel->saveOrFail();
+    }
+
+    public function findByEmail(Email $email): ?User
+    {
+        $userModel = UserModel::query()
+            ->where('email', $email->getValue())
+            ->first();
+
+        if (!$userModel) {
+            return null;
+        }
+
+        /** @var User $userEntity */
+        $userEntity = $this->reflectionService->createObject(User::class, [
+            'id' => UserId::fromString($userModel->id),
+            'email' => Email::fromString($userModel->email),
+            'password' => HashedPassword::fromHash($userModel->password),
+        ]);
+
+        return $userEntity;
     }
 }

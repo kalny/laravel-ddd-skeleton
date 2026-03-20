@@ -179,7 +179,47 @@ Example response:
 ```json
 {
   "id": "63a5e14f-d26d-48b7-81a7-c568a1c17a75",
-  "email": "username@gmail.com"
+  "email": "username@gmail.com",
+  "token": "3|LrZOwkSA3aVYpLhknDhatn8zXQxK0SrjFDMdnFxv4a7cb945"  
+}
+```
+
+### Login User
+
+```
+POST /api/auth/login
+```
+
+Request body:
+
+```json
+{
+  "email": "username@gmail.com",
+  "password": "password"
+}
+```
+
+Example response:
+
+```json
+{
+  "id": "63a5e14f-d26d-48b7-81a7-c568a1c17a75",
+  "email": "username@gmail.com",
+  "token": "3|LrZOwkSA3aVYpLhknDhatn8zXQxK0SrjFDMdnFxv4a7cb945"  
+}
+```
+
+### Log out User
+
+```
+POST /api/auth/logout
+```
+
+Example response:
+
+```json
+{
+  "status": "success"
 }
 ```
 

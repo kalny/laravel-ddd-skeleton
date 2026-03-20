@@ -9,9 +9,11 @@ use App\Billing\Domain\Services\CurrencyPolicy;
 use App\Billing\Infrastructure\Persistence\Eloquent\Repositories\EloquentAccountRepository;
 use App\Billing\Infrastructure\Services\DefaultCurrencyPolicy;
 use App\Identity\Application\Services\PasswordHasher;
+use App\Identity\Application\Services\TokenManager;
 use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Infrastructure\Persistence\Eloquent\Repositories\EloquentUserRepository;
 use App\Identity\Infrastructure\Services\LaravelPasswordHasher;
+use App\Identity\Infrastructure\Services\LaravelTokenManager;
 use App\Shared\Application\Services\EventDispatcher;
 use App\Shared\Application\Services\IdGenerator;
 use App\Shared\Application\Services\TransactionManager;
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         IdGenerator::class => LaravelIdGenerator::class,
         PasswordHasher::class => LaravelPasswordHasher::class,
         EventDispatcher::class => LaravelEventDispatcher::class,
+        TokenManager::class => LaravelTokenManager::class,
 
         // Repositories
         UserRepository::class => EloquentUserRepository::class,

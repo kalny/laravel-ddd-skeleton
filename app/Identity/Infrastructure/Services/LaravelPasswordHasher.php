@@ -15,4 +15,9 @@ class LaravelPasswordHasher implements PasswordHasher
 
         return HashedPassword::fromHash($hash);
     }
+
+    public function check(PlainPassword $plainPassword, HashedPassword $hashedPassword): bool
+    {
+        return Hash::check($plainPassword->getValue(), $hashedPassword->getValue());
+    }
 }

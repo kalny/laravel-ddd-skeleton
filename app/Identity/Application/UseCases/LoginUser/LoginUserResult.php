@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Identity\Application\UseCases\RegisterUser;
+namespace App\Identity\Application\UseCases\LoginUser;
 
-final readonly class RegisterUserResult
+final readonly class LoginUserResult
 {
     public function __construct(
         public string $id,

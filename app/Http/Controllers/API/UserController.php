@@ -19,7 +19,9 @@ class UserController extends Controller
         $command = $request->toCommand($id);
         $handler->handle($command);
 
-        return response()->json(['OK']);
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 
     public function changeEmail(
@@ -30,6 +32,8 @@ class UserController extends Controller
         $command = $request->toCommand($id);
         $handler->handle($command);
 
-        return response()->json(['OK']);
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 }
