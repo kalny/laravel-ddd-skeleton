@@ -8,6 +8,7 @@ use App\Billing\Domain\Account\Exceptions\AccountAlreadyExistsException;
 use App\Billing\Domain\Account\Money;
 use App\Billing\Domain\Account\Repositories\AccountRepository;
 use App\Billing\Domain\Account\UserId;
+use App\Billing\Domain\Services\CurrencyPolicy;
 use App\Shared\Application\Services\EventDispatcher;
 use App\Shared\Application\Services\IdGenerator;
 use App\Shared\Application\Services\TransactionManager;
@@ -19,11 +20,13 @@ final class OpenAccountHandler implements OpenAccount
         private readonly TransactionManager $transactionManager,
         private readonly EventDispatcher $dispatcher,
         private readonly AccountRepository $accounts,
+        private readonly CurrencyPolicy $currencyPolicy
     ) {
     }
 
     public function handle(OpenAccountCommand $command): OpenAccountResult
     {
+        $id = $this->idGenerator->generate();
         $userId = $command->userId;
         $balance = $command->balance;
 
@@ -31,12 +34,12 @@ final class OpenAccountHandler implements OpenAccount
             throw AccountAlreadyExistsException::withUuid($userId);
         }
 
-        $id = $this->idGenerator->generate();
+        $currency = $this->currencyPolicy->defaultForUser(UserId::fromString($userId));
 
         $account = Account::openWithBalance(
             AccountId::fromString($id),
             UserId::fromString($userId),
-            Money::fromInteger($balance)
+            Money::fromMinor($balance, $currency)
         );
 
         return $this->transactionManager->transactional(function () use ($account, $id, $userId, $balance) {

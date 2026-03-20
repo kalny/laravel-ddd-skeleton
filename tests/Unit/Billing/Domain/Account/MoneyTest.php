@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Billing\Domain\Account;
 
+use App\Billing\Domain\Account\Currency;
+use App\Billing\Domain\Account\Exceptions\InvalidMoneyException;
 use App\Billing\Domain\Account\Money;
 use Tests\TestCase;
 
@@ -9,8 +11,10 @@ class MoneyTest extends TestCase
 {
     public function testSuccessfullyCreateMoneyFromInteger(): void
     {
-        $money = Money::fromInteger(1000);
-        $otherMoney = Money::fromInteger(1000);
+        $usd = Currency::USD();
+
+        $money = Money::fromMinor(1000, $usd);
+        $otherMoney = Money::fromMinor(1000, $usd);
 
         $this->assertTrue($money->equals($otherMoney));
         $this->assertFalse($money->isZero());
@@ -18,77 +22,93 @@ class MoneyTest extends TestCase
 
     public function testSuccessfullyCreateZeroMoney(): void
     {
-        $money = Money::zero();
+        $usd = Currency::USD();
+        $money = Money::zero($usd);
 
         $this->assertTrue($money->isZero());
     }
 
     public function testSuccessfullyCreateNegativeMoney(): void
     {
-        $money = Money::fromInteger(-1000);
+        $this->expectException(InvalidMoneyException::class);
 
-        $this->assertTrue($money->isNegative());
+        $usd = Currency::USD();
+        Money::fromMinor(-1000, $usd);
     }
 
     public function testMoneyGreatThenTrue(): void
     {
-        $money = Money::fromInteger(1000);
-        $otherMoney = Money::fromInteger(999);
+        $usd = Currency::USD();
+
+        $money = Money::fromMinor(1000, $usd);
+        $otherMoney = Money::fromMinor(999, $usd);
 
         $this->assertTrue($money->gt($otherMoney));
     }
 
     public function testMoneyGreatThenFalse(): void
     {
-        $money = Money::fromInteger(1000);
-        $otherMoney = Money::fromInteger(999);
+        $usd = Currency::USD();
+
+        $money = Money::fromMinor(1000, $usd);
+        $otherMoney = Money::fromMinor(999, $usd);
 
         $this->assertFalse($otherMoney->gt($money));
     }
 
     public function testMoneyLessThenTrue(): void
     {
-        $money = Money::fromInteger(999);
-        $otherMoney = Money::fromInteger(1000);
+        $usd = Currency::USD();
+
+        $money = Money::fromMinor(999, $usd);
+        $otherMoney = Money::fromMinor(1000, $usd);
 
         $this->assertTrue($money->lt($otherMoney));
     }
 
     public function testMoneyLessThenFalse(): void
     {
-        $money = Money::fromInteger(999);
-        $otherMoney = Money::fromInteger(1000);
+        $usd = Currency::USD();
+
+        $money = Money::fromMinor(999, $usd);
+        $otherMoney = Money::fromMinor(1000, $usd);
 
         $this->assertFalse($otherMoney->lt($money));
     }
 
     public function testAddMoney()
     {
-        $money = Money::fromInteger(1000);
+        $usd = Currency::USD();
 
-        $money = $money->add(Money::fromInteger(1000));
+        $money = Money::fromMinor(1000, $usd);
 
-        $this->assertTrue($money->gt(Money::fromInteger(1999)));
-        $this->assertTrue($money->lt(Money::fromInteger(2001)));
+        $money = $money->add(Money::fromMinor(1000, $usd));
+
+        $this->assertTrue($money->gt(Money::fromMinor(1999, $usd)));
+        $this->assertTrue($money->lt(Money::fromMinor(2001, $usd)));
     }
 
     public function testSubtractMoney()
     {
-        $money = Money::fromInteger(1000);
+        $usd = Currency::USD();
 
-        $money = $money->subtract(Money::fromInteger(500));
+        $money = Money::fromMinor(1000, $usd);
 
-        $this->assertTrue($money->gt(Money::fromInteger(499)));
-        $this->assertTrue($money->lt(Money::fromInteger(501)));
+        $money = $money->subtract(Money::fromMinor(500, $usd));
+
+        $this->assertTrue($money->gt(Money::fromMinor(499, $usd)));
+        $this->assertTrue($money->lt(Money::fromMinor(501, $usd)));
     }
 
     public function testMultiplyMoney()
     {
-        $money = Money::fromInteger(1000);
+        $usd = Currency::USD();
+
+        $money = Money::fromMinor(1000, $usd);
 
         $money = $money->multiply(3);
 
-        $this->assertTrue($money->gt(Money::fromInteger(2999)));
-        $this->assertTrue($money->lt(Money::fromInteger(3001)));
+        $this->assertTrue($money->gt(Money::fromMinor(2999, $usd)));
+        $this->assertTrue($money->lt(Money::fromMinor(3001, $usd)));
     }
 }

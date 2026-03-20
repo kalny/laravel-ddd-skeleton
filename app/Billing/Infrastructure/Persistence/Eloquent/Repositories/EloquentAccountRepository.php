@@ -4,6 +4,7 @@ namespace App\Billing\Infrastructure\Persistence\Eloquent\Repositories;
 
 use App\Billing\Domain\Account\Account;
 use App\Billing\Domain\Account\AccountId;
+use App\Billing\Domain\Account\Currency;
 use App\Billing\Domain\Account\Exceptions\AccountNotFoundException;
 use App\Billing\Domain\Account\Money;
 use App\Billing\Domain\Account\Repositories\AccountRepository;
@@ -32,7 +33,10 @@ class EloquentAccountRepository implements AccountRepository
         $accountEntity = $this->reflectionService->createObject(Account::class, [
             'id' => AccountId::fromString($accountModel->id),
             'userId' => UserId::fromString($accountModel->user_id),
-            'balance' => Money::fromInteger($accountModel->balance),
+            'balance' => Money::fromMinor(
+                $accountModel->balance,
+                Currency::fromString($accountModel->currency)
+            ),
         ]);
 
         return $accountEntity;
@@ -52,7 +56,10 @@ class EloquentAccountRepository implements AccountRepository
         $accountEntity = $this->reflectionService->createObject(Account::class, [
             'id' => AccountId::fromString($accountModel->id),
             'userId' => UserId::fromString($accountModel->user_id),
-            'balance' => Money::fromInteger($accountModel->balance),
+            'balance' => Money::fromMinor(
+                $accountModel->balance,
+                Currency::fromString($accountModel->currency)
+            ),
         ]);
 
         return $accountEntity;
@@ -74,11 +81,15 @@ class EloquentAccountRepository implements AccountRepository
         $balance = $this->reflectionService->getValue($account, 'balance');
         $balanceValue = $this->reflectionService->getValue($balance, 'amount');
 
+        $currency = $this->reflectionService->getValue($balance, 'currency');
+        $currencyCode = $this->reflectionService->getValue($currency, 'code');
+
         $userId = $this->reflectionService->getValue($account, 'userId')->value();
 
         $accountModel->id = $account->id()->value();
         $accountModel->user_id = $userId;
         $accountModel->balance = $balanceValue;
+        $accountModel->currency = $currencyCode;
 
         $accountModel->saveOrFail();
     }

@@ -25,6 +25,7 @@ class AccountFactory extends Factory
             'id' => Str::uuid()->toString(),
             'user_id' => User::factory(),
             'balance' =>0,
+            'currency' => 'USD',
         ];
     }
 }

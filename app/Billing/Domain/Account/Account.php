@@ -19,9 +19,10 @@ class Account extends AggregateRoot
 
     public static function open(
         AccountId $id,
-        UserId $userId
+        UserId $userId,
+        Currency $currency,
     ): self {
-        $balance = Money::zero();
+        $balance = Money::zero($currency);
 
         $account = new self($id, $userId, $balance);
 

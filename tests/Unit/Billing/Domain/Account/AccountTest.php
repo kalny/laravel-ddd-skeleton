@@ -4,6 +4,7 @@ namespace Tests\Unit\Billing\Domain\Account;
 
 use App\Billing\Domain\Account\Account;
 use App\Billing\Domain\Account\AccountId;
+use App\Billing\Domain\Account\Currency;
 use App\Billing\Domain\Account\Events\AccountBalanceCredited;
 use App\Billing\Domain\Account\Events\AccountBalanceDebited;
 use App\Billing\Domain\Account\Events\AccountOpened;
@@ -20,7 +21,9 @@ class AccountTest extends TestCase
         $accountId = AccountId::fromString(Str::uuid()->toString());
         $userId = UserId::fromString(Str::uuid()->toString());
 
-        $account = Account::open($accountId, $userId);
+        $usd = Currency::USD();
+
+        $account = Account::open($accountId, $userId, $usd);
 
         $this->assertTrue($account->id()->equals($accountId));
 
@@ -31,7 +34,7 @@ class AccountTest extends TestCase
         $this->assertEquals(new AccountOpened(
             $accountId,
             $userId,
-            Money::zero(),
+            Money::zero($usd),
         ), $events[0]);
     }
 
@@ -40,7 +43,8 @@ class AccountTest extends TestCase
         $accountId = AccountId::fromString(Str::uuid()->toString());
         $userId = UserId::fromString(Str::uuid()->toString());
 
-        $account = Account::openWithBalance($accountId, $userId, Money::fromInteger(500));
+        $usd = Currency::USD();
+        $account = Account::openWithBalance($accountId, $userId, Money::fromMinor(500, $usd));
 
         $this->assertTrue($account->id()->equals($accountId));
 
@@ -51,7 +55,7 @@ class AccountTest extends TestCase
         $this->assertEquals(new AccountOpened(
             $accountId,
             $userId,
-            Money::fromInteger(500),
+            Money::fromMinor(500, $usd),
         ), $events[0]);
     }
 
@@ -60,9 +64,11 @@ class AccountTest extends TestCase
         $accountId = AccountId::fromString(Str::uuid()->toString());
         $userId = UserId::fromString(Str::uuid()->toString());
 
-        $account = Account::open($accountId, $userId);
+        $usd = Currency::USD();
 
-        $account->credit(Money::fromInteger(1000));
+        $account = Account::open($accountId, $userId, $usd);
+
+        $account->credit(Money::fromMinor(1000, $usd));
 
         $events = $account->releaseEvents();
 
@@ -70,8 +76,8 @@ class AccountTest extends TestCase
 
         $this->assertEquals(new AccountBalanceCredited(
             $accountId,
-            Money::fromInteger(1000),
-            Money::fromInteger(1000),
+            Money::fromMinor(1000, $usd),
+            Money::fromMinor(1000, $usd),
         ), $events[1]);
     }
 
@@ -80,10 +86,12 @@ class AccountTest extends TestCase
         $accountId = AccountId::fromString(Str::uuid()->toString());
         $userId = UserId::fromString(Str::uuid()->toString());
 
-        $account = Account::open($accountId, $userId);
+        $usd = Currency::USD();
 
-        $account->credit(Money::fromInteger(1000));
-        $account->debit(Money::fromInteger(1000));
+        $account = Account::open($accountId, $userId, $usd);
+
+        $account->credit(Money::fromMinor(1000, $usd));
+        $account->debit(Money::fromMinor(1000, $usd));
 
         $events = $account->releaseEvents();
 
@@ -91,14 +99,14 @@ class AccountTest extends TestCase
 
         $this->assertEquals(new AccountBalanceCredited(
             $accountId,
-            Money::fromInteger(1000),
-            Money::fromInteger(1000),
+            Money::fromMinor(1000, $usd),
+            Money::fromMinor(1000, $usd),
         ), $events[1]);
 
         $this->assertEquals(new AccountBalanceDebited(
             $accountId,
-            Money::fromInteger(1000),
-            Money::fromInteger(0),
+            Money::fromMinor(1000, $usd),
+            Money::fromMinor(0, $usd),
         ), $events[2]);
     }
 
@@ -109,9 +117,11 @@ class AccountTest extends TestCase
         $accountId = AccountId::fromString(Str::uuid()->toString());
         $userId = UserId::fromString(Str::uuid()->toString());
 
-        $account = Account::open($accountId, $userId);
+        $usd = Currency::USD();
 
-        $account->debit(Money::fromInteger(1000));
+        $account = Account::open($accountId, $userId, $usd);
+
+        $account->debit(Money::fromMinor(1000, $usd));
     }
 
     public function testAccountBelongsToUserTrue(): void
@@ -119,7 +129,9 @@ class AccountTest extends TestCase
         $accountId = AccountId::fromString(Str::uuid()->toString());
         $userId = UserId::fromString(Str::uuid()->toString());
 
-        $account = Account::open($accountId, $userId);
+        $usd = Currency::USD();
+
+        $account = Account::open($accountId, $userId, $usd);
 
         $this->assertTrue($account->belongsTo($userId));
     }
@@ -130,7 +142,9 @@ class AccountTest extends TestCase
         $userId = UserId::fromString(Str::uuid()->toString());
         $otherUserId = UserId::fromString(Str::uuid()->toString());
 
-        $account = Account::open($accountId, $userId);
+        $usd = Currency::USD();
+
+        $account = Account::open($accountId, $userId, $usd);
 
         $this->assertFalse($account->belongsTo($otherUserId));
     }

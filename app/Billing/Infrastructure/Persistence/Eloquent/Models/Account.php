@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $id
  * @property string $user_id
  * @property int $balance
+ * @property string $currency
  */
 class Account extends Model
 {
@@ -17,5 +18,6 @@ class Account extends Model
 
     protected $fillable = [
         'balance',
+        'currency',
     ];
 }

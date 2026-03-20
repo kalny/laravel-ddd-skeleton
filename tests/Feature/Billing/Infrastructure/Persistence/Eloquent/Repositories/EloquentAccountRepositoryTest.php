@@ -3,6 +3,7 @@
 namespace Tests\Feature\Billing\Infrastructure\Persistence\Eloquent\Repositories;
 
 use App\Billing\Domain\Account\AccountId;
+use App\Billing\Domain\Account\Currency;
 use App\Billing\Domain\Account\Exceptions\AccountNotFoundException;
 use App\Billing\Domain\Account\Money;
 use App\Billing\Domain\Account\UserId;
@@ -57,9 +58,11 @@ class EloquentAccountRepositoryTest extends TestCase
             'balance' => 1000
         ]);
 
+        $usd = Currency::USD();
+
         $account = $this->accounts->get(AccountId::fromString($uuid));
 
-        $account->credit(Money::fromInteger(500));
+        $account->credit(Money::fromMinor(500, $usd));
 
         $this->accounts->save($account);
 
@@ -72,22 +75,24 @@ class EloquentAccountRepositoryTest extends TestCase
     /**
      * @throws Throwable
      */
-    public function testSuccessfullySaveNewUser(): void
+    public function testSuccessfullySaveNewAccount(): void
     {
         $userIdValue = Str::uuid()->toString();
         User::factory()->create([
             'id' => $userIdValue,
         ]);
 
-
         $uuid = Str::uuid()->toString();
+
+        $usd = Currency::USD();
 
         $accountId = AccountId::fromString($uuid);
         $userId = \App\Billing\Domain\Account\UserId::fromString($userIdValue);
 
         $account = \App\Billing\Domain\Account\Account::open(
             $accountId,
-            $userId
+            $userId,
+            $usd
         );
 
         $this->accounts->save($account);

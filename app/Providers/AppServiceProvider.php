@@ -5,7 +5,9 @@ namespace App\Providers;
 use App\Billing\Application\UseCases\OpenAccount\OpenAccount;
 use App\Billing\Application\UseCases\OpenAccount\OpenAccountHandler;
 use App\Billing\Domain\Account\Repositories\AccountRepository;
+use App\Billing\Domain\Services\CurrencyPolicy;
 use App\Billing\Infrastructure\Persistence\Eloquent\Repositories\EloquentAccountRepository;
+use App\Billing\Infrastructure\Services\DefaultCurrencyPolicy;
 use App\Identity\Application\Services\PasswordHasher;
 use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Infrastructure\Persistence\Eloquent\Repositories\EloquentUserRepository;
@@ -22,13 +24,21 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     public $bindings = [
+        // Services
         TransactionManager::class => LaravelTransactionManager::class,
         IdGenerator::class => LaravelIdGenerator::class,
         PasswordHasher::class => LaravelPasswordHasher::class,
         EventDispatcher::class => LaravelEventDispatcher::class,
+
+        // Repositories
         UserRepository::class => EloquentUserRepository::class,
         AccountRepository::class => EloquentAccountRepository::class,
-        OpenAccount::class => OpenAccountHandler::class
+
+        // Handlers
+        OpenAccount::class => OpenAccountHandler::class,
+
+        // Policies
+        CurrencyPolicy::class => DefaultCurrencyPolicy::class,
     ];
 
     /**
