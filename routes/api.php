@@ -10,8 +10,8 @@ Route::name('api.')->group(function () {
             ->name('register');
     });
     Route::prefix('users')->name('users.')->group(function () {
-        Route::post('/{id}/change-name', [UserController::class, 'changeName'])
-            ->name('change-name');
+        Route::post('/{id}/change-email', [UserController::class, 'changeEmail'])
+            ->name('change-email');
         Route::post('/{id}/change-password', [UserController::class, 'changePassword'])
             ->name('change-password');
     });

@@ -42,6 +42,7 @@ app
       │    ├── Services
       │    └── UseCases
       │         ├── ChangeUserPassword
+      │         ├── ChangeUserEmail
       │         └── RegisterUser
       │
       └── Infrastructure
@@ -217,6 +218,24 @@ $user->changePassword(
 
 $this->users->save($user);
 ```
+
+### Change User Email (simplified)
+
+```php
+$user = $this->users->get($id);
+
+$email = Email::fromString($command->email);
+
+if ($this->users->existsByEmail($email) && !$user->hasEmail($email)) {
+    throw EmailAlreadyTakenException::withValue($command->email);
+}
+
+$user->changeEmail($email);
+
+$this->users->save($user);
+```
+
+---
 
 # Why This Project
 

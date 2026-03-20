@@ -44,4 +44,28 @@ class UserControllerTest extends TestCase
 
         $this->assertTrue($this->hasher->check('new_password', $userModel->password));
     }
+
+    public function testChangeEmailSuccessfully(): void
+    {
+        $userModel = User::factory()->create([
+            'email' => 'username@gmail.com',
+            'password' => 'password',
+        ]);
+
+        $payload = [
+            'email' => 'new_username@gmail.com',
+        ];
+
+        $response = $this->postJson(
+            route('api.users.change-email', ['id' => $userModel->id]),
+            $payload
+        );
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('users', [
+            'id' => $userModel->id,
+            'email' => $payload['email'],
+        ]);
+    }
 }

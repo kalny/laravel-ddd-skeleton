@@ -7,6 +7,7 @@ use App\Identity\Domain\Common\Exceptions\InsufficientFundsException;
 use App\Identity\Domain\Common\Money;
 use App\Identity\Domain\User\Events\UserBalanceCredited;
 use App\Identity\Domain\User\Events\UserBalanceDebited;
+use App\Identity\Domain\User\Events\UserEmailChanged;
 use App\Identity\Domain\User\Events\UserPasswordChanged;
 use App\Identity\Domain\User\Events\UserRegistered;
 use App\Identity\Domain\User\HashedPassword;
@@ -183,5 +184,70 @@ class UserTest extends TestCase
         $this->assertEquals(new UserPasswordChanged(
             $userId,
         ), $events[1]);
+    }
+
+    public function testChangeEmailToSameEmail(): void
+    {
+        $userId = UserId::fromString(Str::uuid()->toString());
+
+        $user = User::register(
+            $userId,
+            Email::fromString('username@test.com'),
+            HashedPassword::fromHash('password'),
+        );
+
+        $user->changeEmail(Email::fromString('username@test.com'));
+
+        $events = $user->releaseEvents();
+
+        $this->assertCount(1, $events);
+    }
+
+    public function testChangeEmailToOtherEmail(): void
+    {
+        $userId = UserId::fromString(Str::uuid()->toString());
+
+        $user = User::register(
+            $userId,
+            Email::fromString('username@test.com'),
+            HashedPassword::fromHash('password'),
+        );
+
+        $user->changeEmail(Email::fromString('other_username@test.com'));
+
+        $events = $user->releaseEvents();
+
+        $this->assertCount(2, $events);
+
+        $this->assertEquals(new UserEmailChanged(
+            $userId,
+            Email::fromString('other_username@test.com')
+        ), $events[1]);
+    }
+
+    public function testUserHasEmailTrue(): void
+    {
+        $userId = UserId::fromString(Str::uuid()->toString());
+
+        $user = User::register(
+            $userId,
+            Email::fromString('username@test.com'),
+            HashedPassword::fromHash('password'),
+        );
+
+        $this->assertTrue($user->hasEmail(Email::fromString('username@test.com')));
+    }
+
+    public function testUserHasEmailFalse(): void
+    {
+        $userId = UserId::fromString(Str::uuid()->toString());
+
+        $user = User::register(
+            $userId,
+            Email::fromString('username@test.com'),
+            HashedPassword::fromHash('password'),
+        );
+
+        $this->assertFalse($user->hasEmail(Email::fromString('other_username@test.com')));
     }
 }

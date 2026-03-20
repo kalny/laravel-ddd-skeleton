@@ -2,6 +2,7 @@
 
 namespace App\Identity\Domain\User;
 
+use App\Identity\Domain\User\Events\UserEmailChanged;
 use App\Shared\Domain\AggregateRoot;
 use App\Identity\Domain\Common\Email;
 use App\Identity\Domain\Common\Exceptions\InsufficientFundsException;
@@ -17,7 +18,7 @@ final class User extends AggregateRoot
 
     private function __construct(
         private readonly UserId $id,
-        private readonly Email $email,
+        private Email $email,
         private HashedPassword $password,
     ) {
         $this->balance = Money::zero();
@@ -45,6 +46,11 @@ final class User extends AggregateRoot
         return $this->id->equals($other->id);
     }
 
+    public function hasEmail(Email $email): bool
+    {
+        return $this->email->equals($email);
+    }
+
     public function debit(Money $money): void
     {
         if ($this->balance->lt($money)) {
@@ -70,5 +76,15 @@ final class User extends AggregateRoot
 
         $this->password = $newHashedPassword;
         $this->record(new UserPasswordChanged($this->id));
+    }
+
+    public function changeEmail(Email $newEmail): void
+    {
+        if ($this->email->equals($newEmail)) {
+            return;
+        }
+
+        $this->email = $newEmail;
+        $this->record(new UserEmailChanged($this->id, $this->email));
     }
 }

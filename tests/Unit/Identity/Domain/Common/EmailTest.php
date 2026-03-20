@@ -43,4 +43,20 @@ class EmailTest extends TestCase
 
         Email::fromString(' ');
     }
+
+    public function testEqualsTrue(): void
+    {
+        $email = Email::fromString('test@example.com');
+        $sameEmail = Email::fromString('test@example.com');
+
+        $this->assertTrue($email->equals($sameEmail));
+    }
+
+    public function testEqualsFalse(): void
+    {
+        $email = Email::fromString('test@example.com');
+        $otherEmail = Email::fromString('other_test@example.com');
+
+        $this->assertFalse($email->equals($otherEmail));
+    }
 }
