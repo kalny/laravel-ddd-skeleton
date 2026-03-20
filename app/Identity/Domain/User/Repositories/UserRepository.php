@@ -2,7 +2,7 @@
 
 namespace App\Identity\Domain\User\Repositories;
 
-use App\Identity\Domain\Common\Email;
+use App\Identity\Domain\User\Email;
 use App\Identity\Domain\User\User;
 use App\Identity\Domain\User\UserId;
 

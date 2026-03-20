@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Identity\Infrastructure\Persistence\Eloquent\Repositories;
 
-use App\Identity\Domain\Common\Email;
+use App\Identity\Domain\User\Email;
 use App\Identity\Domain\Common\Money;
 use App\Identity\Domain\User\Exceptions\UserNotFoundException;
 use App\Identity\Domain\User\HashedPassword;

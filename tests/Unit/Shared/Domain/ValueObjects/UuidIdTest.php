@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Identity\Domain\Common;
+namespace Tests\Unit\Shared\Domain\ValueObjects;
 
 use App\Shared\Domain\Exceptions\InvalidUuidException;
 use App\Shared\Domain\ValueObjects\UuidId;

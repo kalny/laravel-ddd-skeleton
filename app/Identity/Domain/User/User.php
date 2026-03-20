@@ -4,7 +4,7 @@ namespace App\Identity\Domain\User;
 
 use App\Identity\Domain\User\Events\UserEmailChanged;
 use App\Shared\Domain\AggregateRoot;
-use App\Identity\Domain\Common\Email;
+use App\Identity\Domain\User\Email;
 use App\Identity\Domain\Common\Exceptions\InsufficientFundsException;
 use App\Identity\Domain\Common\Money;
 use App\Identity\Domain\User\Events\UserBalanceCredited;

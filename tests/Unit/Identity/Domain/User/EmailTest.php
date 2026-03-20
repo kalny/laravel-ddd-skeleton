@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Unit\Identity\Domain\Common;
+namespace Tests\Unit\Identity\Domain\User;
 
-use App\Identity\Domain\Common\Email;
+use App\Identity\Domain\User\Email;
+use App\Identity\Domain\User\Exceptions\InvalidEmailException;
 use App\Shared\Domain\Exceptions\InvalidArgumentException;
-use App\Identity\Domain\Common\Exceptions\InvalidEmailException;
 use Tests\TestCase;
 
 class EmailTest extends TestCase

@@ -2,7 +2,7 @@
 
 namespace App\Identity\Application\UseCases\ChangeUserEmail;
 
-use App\Identity\Domain\Common\Email;
+use App\Identity\Domain\User\Email;
 use App\Identity\Domain\User\Exceptions\EmailAlreadyTakenException;
 use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Domain\User\UserId;

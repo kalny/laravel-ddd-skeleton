@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Identity\Domain\Common;
+namespace App\Identity\Domain\User;
 
 use App\Shared\Domain\Exceptions\InvalidArgumentException;
-use App\Identity\Domain\Common\Exceptions\InvalidEmailException;
+use App\Identity\Domain\User\Exceptions\InvalidEmailException;
 
 final readonly class Email
 {

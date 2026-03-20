@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Shared\Domain\ValueObjects;
+namespace Tests\Unit\Identity\Domain\User;
 
 use App\Identity\Domain\User\UserId;
 use Illuminate\Support\Str;
