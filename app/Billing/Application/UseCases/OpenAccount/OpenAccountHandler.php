@@ -12,7 +12,7 @@ use App\Shared\Application\Services\EventDispatcher;
 use App\Shared\Application\Services\IdGenerator;
 use App\Shared\Application\Services\TransactionManager;
 
-class OpenAccountHandler
+final class OpenAccountHandler implements OpenAccount
 {
     public function __construct(
         private readonly IdGenerator $idGenerator,

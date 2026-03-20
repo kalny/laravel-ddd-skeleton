@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Billing\Infrastructure\IntegrationEventListeners;
 
+use App\Billing\Application\UseCases\OpenAccount\OpenAccount;
 use App\Billing\Application\UseCases\OpenAccount\OpenAccountCommand;
-use App\Billing\Application\UseCases\OpenAccount\OpenAccountHandler;
 use App\Billing\Application\UseCases\OpenAccount\OpenAccountResult;
 use App\Billing\Infrastructure\IntegrationEventListeners\OpenAccountOnUserRegistered;
 use App\Identity\Infrastructure\IntegrationEvents\UserRegisteredIntegrationEvent;
@@ -16,7 +16,7 @@ class OpenAccountOnUserRegisteredTest extends TestCase
     {
         $userId = Str::uuid()->toString();
 
-        $openAccountHandlerMock = $this->createMock(OpenAccountHandler::class);
+        $openAccountHandlerMock = $this->createMock(OpenAccount::class);
 
         $openAccountHandlerMock
             ->expects($this->once())
