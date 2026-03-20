@@ -2,7 +2,7 @@
 
 namespace App\Identity\Domain\User;
 
-use App\Shared\Domain\ValueObject\UuidId;
+use App\Shared\Domain\ValueObjects\UuidId;
 
 final readonly class UserId
 {

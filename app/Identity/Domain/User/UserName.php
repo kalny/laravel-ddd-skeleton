@@ -2,7 +2,7 @@
 
 namespace App\Identity\Domain\User;
 
-use App\Shared\Domain\Exception\InvalidArgumentException;
+use App\Shared\Domain\Exceptions\InvalidArgumentException;
 
 final readonly class UserName
 {

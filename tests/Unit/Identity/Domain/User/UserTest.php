@@ -3,13 +3,13 @@
 namespace Tests\Unit\Identity\Domain\User;
 
 use App\Identity\Domain\Common\Email;
-use App\Identity\Domain\Common\Exception\InsufficientFundsException;
+use App\Identity\Domain\Common\Exceptions\InsufficientFundsException;
 use App\Identity\Domain\Common\Money;
-use App\Identity\Domain\User\Event\UserBalanceCredited;
-use App\Identity\Domain\User\Event\UserBalanceDebited;
-use App\Identity\Domain\User\Event\UserNameChanged;
-use App\Identity\Domain\User\Event\UserPasswordChanged;
-use App\Identity\Domain\User\Event\UserRegistered;
+use App\Identity\Domain\User\Events\UserBalanceCredited;
+use App\Identity\Domain\User\Events\UserBalanceDebited;
+use App\Identity\Domain\User\Events\UserNameChanged;
+use App\Identity\Domain\User\Events\UserPasswordChanged;
+use App\Identity\Domain\User\Events\UserRegistered;
 use App\Identity\Domain\User\HashedPassword;
 use App\Identity\Domain\User\User;
 use App\Identity\Domain\User\UserId;

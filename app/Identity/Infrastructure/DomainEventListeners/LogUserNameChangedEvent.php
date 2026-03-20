@@ -2,7 +2,7 @@
 
 namespace App\Identity\Infrastructure\DomainEventListeners;
 
-use App\Identity\Domain\User\Event\UserNameChanged;
+use App\Identity\Domain\User\Events\UserNameChanged;
 use Illuminate\Support\Facades\Log;
 
 class LogUserNameChangedEvent

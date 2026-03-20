@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Identity\Application\Services\PasswordHasher;
-use App\Identity\Domain\User\Repository\UserRepository;
-use App\Identity\Infrastructure\Persistence\Eloquent\Repositoriy\EloquentUserRepository;
+use App\Identity\Domain\User\Repositories\UserRepository;
+use App\Identity\Infrastructure\Persistence\Eloquent\Repositories\EloquentUserRepository;
 use App\Identity\Infrastructure\Services\LaravelPasswordHasher;
 use App\Shared\Application\Services\EventDispatcher;
 use App\Shared\Application\Services\IdGenerator;

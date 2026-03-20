@@ -4,12 +4,12 @@ namespace Tests\Feature\Identity\Infrastructure\Persistence\Eloquent\Repositorie
 
 use App\Identity\Domain\Common\Email;
 use App\Identity\Domain\Common\Money;
-use App\Identity\Domain\User\Exception\UserNotFoundException;
+use App\Identity\Domain\User\Exceptions\UserNotFoundException;
 use App\Identity\Domain\User\HashedPassword;
 use App\Identity\Domain\User\UserId;
 use App\Identity\Domain\User\UserName;
-use App\Identity\Infrastructure\Persistence\Eloquent\Model\User;
-use App\Identity\Infrastructure\Persistence\Eloquent\Repositoriy\EloquentUserRepository;
+use App\Identity\Infrastructure\Persistence\Eloquent\Models\User;
+use App\Identity\Infrastructure\Persistence\Eloquent\Repositories\EloquentUserRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Psr\Container\ContainerExceptionInterface;

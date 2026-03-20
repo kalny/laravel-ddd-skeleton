@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Identity\Infrastructure\Persistence\Eloquent\Model\User;
+use App\Identity\Infrastructure\Persistence\Eloquent\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

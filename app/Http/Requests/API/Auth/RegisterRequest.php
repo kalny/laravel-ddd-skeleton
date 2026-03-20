@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\API\Auth;
 
-use App\Identity\Application\UseCase\RegisterUser\RegisterUserCommand;
+use App\Identity\Application\UseCases\RegisterUser\RegisterUserCommand;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 

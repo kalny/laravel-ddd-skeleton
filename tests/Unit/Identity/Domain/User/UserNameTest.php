@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Identity\Domain\User;
 
-use App\Shared\Domain\Exception\InvalidArgumentException;
+use App\Shared\Domain\Exceptions\InvalidArgumentException;
 use App\Identity\Domain\User\UserName;
 use Tests\TestCase;
 

@@ -2,7 +2,7 @@
 
 namespace App\Identity\Infrastructure\DomainEventListeners;
 
-use App\Identity\Domain\User\Event\UserBalanceDebited;
+use App\Identity\Domain\User\Events\UserBalanceDebited;
 use Illuminate\Support\Facades\Log;
 
 class LogUserBalanceDebitedEvent

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Auth\RegisterRequest;
 use App\Http\Resources\API\Auth\RegisterUserResource;
-use App\Identity\Application\UseCase\RegisterUser\RegisterUserHandler;
+use App\Identity\Application\UseCases\RegisterUser\RegisterUserHandler;
 
 class AuthController extends Controller
 {

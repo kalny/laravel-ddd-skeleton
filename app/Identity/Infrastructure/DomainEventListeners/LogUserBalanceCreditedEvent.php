@@ -2,7 +2,7 @@
 
 namespace App\Identity\Infrastructure\DomainEventListeners;
 
-use App\Identity\Domain\User\Event\UserBalanceCredited;
+use App\Identity\Domain\User\Events\UserBalanceCredited;
 use Illuminate\Support\Facades\Log;
 
 class LogUserBalanceCreditedEvent

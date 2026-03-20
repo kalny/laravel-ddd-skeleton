@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Identity\Domain\Common;
 
-use App\Shared\Domain\Exception\InvalidUuidException;
-use App\Shared\Domain\ValueObject\UuidId;
+use App\Shared\Domain\Exceptions\InvalidUuidException;
+use App\Shared\Domain\ValueObjects\UuidId;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 

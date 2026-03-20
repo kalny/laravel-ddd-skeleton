@@ -2,7 +2,7 @@
 
 namespace App\Identity\Infrastructure\DomainEventListeners;
 
-use App\Identity\Domain\User\Event\UserPasswordChanged;
+use App\Identity\Domain\User\Events\UserPasswordChanged;
 use Illuminate\Support\Facades\Log;
 
 class LogUserPasswordChangedEvent

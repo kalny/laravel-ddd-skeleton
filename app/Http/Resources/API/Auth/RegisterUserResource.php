@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\API\Auth;
 
-use App\Identity\Application\UseCase\RegisterUser\RegisterUserResult;
+use App\Identity\Application\UseCases\RegisterUser\RegisterUserResult;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

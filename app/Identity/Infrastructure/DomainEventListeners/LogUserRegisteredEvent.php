@@ -2,8 +2,8 @@
 
 namespace App\Identity\Infrastructure\DomainEventListeners;
 
-use App\Identity\Domain\User\Event\UserRegistered;
-use App\Identity\Infrastructure\IntegrationEvent\UserRegisteredIntegrationEvent;
+use App\Identity\Domain\User\Events\UserRegistered;
+use App\Identity\Infrastructure\IntegrationEvents\UserRegisteredIntegrationEvent;
 use Illuminate\Support\Facades\Log;
 
 class LogUserRegisteredEvent

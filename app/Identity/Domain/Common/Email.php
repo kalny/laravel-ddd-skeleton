@@ -2,8 +2,8 @@
 
 namespace App\Identity\Domain\Common;
 
-use App\Shared\Domain\Exception\InvalidArgumentException;
-use App\Identity\Domain\Common\Exception\InvalidEmailException;
+use App\Shared\Domain\Exceptions\InvalidArgumentException;
+use App\Identity\Domain\Common\Exceptions\InvalidEmailException;
 
 final readonly class Email
 {

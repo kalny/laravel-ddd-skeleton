@@ -23,8 +23,8 @@ Folder structure:
 app
  ├── Shared
  │    ├── Domain
- │    │    ├── Exception
- │    │    └── ValueObject
+ │    │    ├── Exceptions
+ │    │    └── ValueObjects
  │    ├── Application
  │    │    └── Services
  │    └── Infrastructure
@@ -32,15 +32,15 @@ app
  └── Identity
       ├── Domain
       │    ├── Common
-      │    │    └── Exception
+      │    │    └── Exceptions
       │    └── User
       │         ├── Events
-      │         ├── Exception
-      │         └── Repository
+      │         ├── Exceptions
+      │         └── Repositories
       │
       ├── Application
       │    ├── Services
-      │    └── UseCase
+      │    └── UseCases
       │         ├── ChangeUserName
       │         ├── ChangeUserPassword
       │         └── RegisterUser
@@ -48,11 +48,11 @@ app
       └── Infrastructure
            ├── Persistence
            │    └── Eloquent
-           │         ├── Model
-           │         └── Repository
+           │         ├── Models
+           │         └── Repositories
            ├── Services
            ├── DomainEventListeners
-           ├── IntegrationEvent
+           ├── IntegrationEvents
            └── IntegrationEventListeners
 ```
 
