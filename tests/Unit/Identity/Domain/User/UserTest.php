@@ -3,10 +3,6 @@
 namespace Tests\Unit\Identity\Domain\User;
 
 use App\Identity\Domain\User\Email;
-use App\Identity\Domain\Common\Exceptions\InsufficientFundsException;
-use App\Identity\Domain\Common\Money;
-use App\Identity\Domain\User\Events\UserBalanceCredited;
-use App\Identity\Domain\User\Events\UserBalanceDebited;
 use App\Identity\Domain\User\Events\UserEmailChanged;
 use App\Identity\Domain\User\Events\UserPasswordChanged;
 use App\Identity\Domain\User\Events\UserRegistered;
@@ -78,74 +74,6 @@ class UserTest extends TestCase
         );
 
         $this->assertFalse($firstUser->equals($secondUser));
-    }
-
-    public function testSuccessfullyCreditBalance(): void
-    {
-        $userId = UserId::fromString(Str::uuid()->toString());
-
-        $user = User::register(
-            $userId,
-            Email::fromString('username@test.com'),
-            HashedPassword::fromHash('password'),
-        );
-
-        $user->credit(Money::fromInteger(1000));
-
-        $events = $user->releaseEvents();
-
-        $this->assertCount(2, $events);
-
-        $this->assertEquals(new UserBalanceCredited(
-            $userId,
-            Money::fromInteger(1000),
-            Money::fromInteger(1000),
-        ), $events[1]);
-    }
-
-    public function testSuccessfullyDebitBalance(): void
-    {
-        $userId = UserId::fromString(Str::uuid()->toString());
-
-        $user = User::register(
-            $userId,
-            Email::fromString('username@test.com'),
-            HashedPassword::fromHash('password'),
-        );
-
-        $user->credit(Money::fromInteger(1000));
-        $user->debit(Money::fromInteger(1000));
-
-        $events = $user->releaseEvents();
-
-        $this->assertCount(3, $events);
-
-        $this->assertEquals(new UserBalanceCredited(
-            $userId,
-            Money::fromInteger(1000),
-            Money::fromInteger(1000),
-        ), $events[1]);
-
-        $this->assertEquals(new UserBalanceDebited(
-            $userId,
-            Money::fromInteger(1000),
-            Money::fromInteger(0),
-        ), $events[2]);
-    }
-
-    public function testDebitUnsufficientFunds(): void
-    {
-        $this->expectException(InsufficientFundsException::class);
-
-        $userId = UserId::fromString(Str::uuid()->toString());
-
-        $user = User::register(
-            $userId,
-            Email::fromString('username@test.com'),
-            HashedPassword::fromHash('password'),
-        );
-
-        $user->debit(Money::fromInteger(1000));
     }
 
     public function testChangePasswordToSamePassword(): void

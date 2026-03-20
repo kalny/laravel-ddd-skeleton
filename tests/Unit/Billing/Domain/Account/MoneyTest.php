@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Unit\Identity\Domain\Common;
+namespace Tests\Unit\Billing\Domain\Account;
 
-use App\Identity\Domain\Common\Money;
+use App\Billing\Domain\Account\Money;
 use Tests\TestCase;
 
 class MoneyTest extends TestCase

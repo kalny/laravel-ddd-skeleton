@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Billing\Application\UseCases\OpenAccount\OpenAccount;
+use App\Billing\Application\UseCases\OpenAccount\OpenAccountResult;
+use App\Billing\Domain\Account\Repositories\AccountRepository;
+use App\Billing\Infrastructure\Persistence\Eloquent\Repositories\EloquentAccountRepository;
 use App\Identity\Application\Services\PasswordHasher;
 use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Infrastructure\Persistence\Eloquent\Repositories\EloquentUserRepository;
@@ -23,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
         PasswordHasher::class => LaravelPasswordHasher::class,
         EventDispatcher::class => LaravelEventDispatcher::class,
         UserRepository::class => EloquentUserRepository::class,
+        AccountRepository::class => EloquentAccountRepository::class
     ];
 
     /**

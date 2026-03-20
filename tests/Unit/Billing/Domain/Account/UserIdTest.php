@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Unit\Identity\Domain\User;
+namespace Tests\Unit\Billing\Domain\Account;
 
-use App\Identity\Domain\User\UserId;
+use App\Billing\Domain\Account\UserId;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 

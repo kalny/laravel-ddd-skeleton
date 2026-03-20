@@ -12,7 +12,6 @@ use Illuminate\Notifications\Notifiable;
  * @property string $id
  * @property string $email
  * @property string $password
- * @property int $balance
  */
 class User extends Authenticatable
 {

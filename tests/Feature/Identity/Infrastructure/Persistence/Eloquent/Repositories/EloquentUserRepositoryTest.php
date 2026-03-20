@@ -3,7 +3,6 @@
 namespace Tests\Feature\Identity\Infrastructure\Persistence\Eloquent\Repositories;
 
 use App\Identity\Domain\User\Email;
-use App\Identity\Domain\Common\Money;
 use App\Identity\Domain\User\Exceptions\UserNotFoundException;
 use App\Identity\Domain\User\HashedPassword;
 use App\Identity\Domain\User\UserId;
@@ -69,18 +68,18 @@ class EloquentUserRepositoryTest extends TestCase
 
         User::factory()->create([
             'id' => $uuid,
-            'balance' => 1000,
+            'email' => 'username@gmail.com'
         ]);
 
         $user = $this->users->get(UserId::fromString($uuid));
 
-        $user->credit(Money::fromInteger(100));
+        $user->changeEmail(Email::fromString('new_username@gmail.com'));
 
         $this->users->save($user);
 
         $this->assertDatabaseHas('users', [
             'id' => $uuid,
-            'balance' => 1100,
+            'email' => 'new_username@gmail.com'
         ]);
     }
 
@@ -103,7 +102,6 @@ class EloquentUserRepositoryTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'id' => $uuid,
-            'balance' => 0,
             'email' => 'username@test.com',
             'password' => 'password_hash',
         ]);

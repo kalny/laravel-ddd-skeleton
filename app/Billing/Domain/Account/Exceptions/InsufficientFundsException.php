@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Identity\Domain\Common\Exceptions;
+namespace App\Billing\Domain\Account\Exceptions;
 
 use App\Shared\Domain\Exceptions\DomainExceptionBase;
 

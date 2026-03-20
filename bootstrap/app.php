@@ -21,5 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withEvents(discover: [
         __DIR__ . '/../app/Identity/Infrastructure/DomainEventListeners',
         __DIR__ . '/../app/Identity/Infrastructure/IntegrationEventListeners',
+        __DIR__ . '/../app/Billing/Infrastructure/DomainEventListeners',
+        __DIR__ . '/../app/Billing/Infrastructure/IntegrationEventListeners',
     ])
     ->create();

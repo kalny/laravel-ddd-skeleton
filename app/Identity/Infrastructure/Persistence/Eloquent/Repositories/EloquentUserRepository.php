@@ -3,7 +3,6 @@
 namespace App\Identity\Infrastructure\Persistence\Eloquent\Repositories;
 
 use App\Identity\Domain\User\Email;
-use App\Identity\Domain\Common\Money;
 use App\Identity\Domain\User\Exceptions\UserNotFoundException;
 use App\Identity\Domain\User\HashedPassword;
 use App\Identity\Domain\User\Repositories\UserRepository;
@@ -45,7 +44,6 @@ class EloquentUserRepository implements UserRepository
             'id' => UserId::fromString($userModel->id),
             'email' => Email::fromString($userModel->email),
             'password' => HashedPassword::fromHash($userModel->password),
-            'balance' => Money::fromInteger($userModel->balance),
         ]);
 
         return $userEntity;
@@ -67,12 +65,9 @@ class EloquentUserRepository implements UserRepository
             $userModel = new UserModel();
         }
 
-        $balance =  $this->reflectionService->getValue($user, 'balance');
-
         $userModel->id = $this->reflectionService->getValue($user->id(), 'uuid')->getValue();
         $userModel->email = $this->reflectionService->getValue($user, 'email')->getValue();
         $userModel->password = $this->reflectionService->getValue($user, 'password')->getValue();
-        $userModel->balance = $this->reflectionService->getValue($balance, 'amount');
 
         $userModel->saveOrFail();
     }

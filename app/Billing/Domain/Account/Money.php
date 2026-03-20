@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Identity\Domain\Common;
+namespace App\Billing\Domain\Account;
 
 final readonly class Money
 {

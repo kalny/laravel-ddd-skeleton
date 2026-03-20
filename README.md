@@ -31,8 +31,6 @@ app
  │         └── Services
  └── Identity
       ├── Domain
-      │    ├── Common
-      │    │    └── Exceptions
       │    └── User
       │         ├── Events
       │         ├── Exceptions

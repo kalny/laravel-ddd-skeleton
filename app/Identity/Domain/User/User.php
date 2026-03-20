@@ -3,25 +3,17 @@
 namespace App\Identity\Domain\User;
 
 use App\Identity\Domain\User\Events\UserEmailChanged;
-use App\Shared\Domain\AggregateRoot;
-use App\Identity\Domain\User\Email;
-use App\Identity\Domain\Common\Exceptions\InsufficientFundsException;
-use App\Identity\Domain\Common\Money;
-use App\Identity\Domain\User\Events\UserBalanceCredited;
-use App\Identity\Domain\User\Events\UserBalanceDebited;
 use App\Identity\Domain\User\Events\UserPasswordChanged;
 use App\Identity\Domain\User\Events\UserRegistered;
+use App\Shared\Domain\AggregateRoot;
 
 final class User extends AggregateRoot
 {
-    private Money $balance;
-
     private function __construct(
         private readonly UserId $id,
         private Email $email,
         private HashedPassword $password,
     ) {
-        $this->balance = Money::zero();
     }
 
     public static function register(
@@ -49,23 +41,6 @@ final class User extends AggregateRoot
     public function hasEmail(Email $email): bool
     {
         return $this->email->equals($email);
-    }
-
-    public function debit(Money $money): void
-    {
-        if ($this->balance->lt($money)) {
-            throw new InsufficientFundsException('Insufficient funds on the balance');
-        }
-        $this->balance = $this->balance->subtract($money);
-
-        $this->record(new UserBalanceDebited($this->id, $money, $this->balance));
-    }
-
-    public function credit(Money $money): void
-    {
-        $this->balance = $this->balance->add($money);
-
-        $this->record(new UserBalanceCredited($this->id, $money, $this->balance));
     }
 
     public function changePassword(HashedPassword $newHashedPassword): void
