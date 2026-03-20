@@ -113,4 +113,25 @@ class AccountTest extends TestCase
 
         $account->debit(Money::fromInteger(1000));
     }
+
+    public function testAccountBelongsToUserTrue(): void
+    {
+        $accountId = AccountId::fromString(Str::uuid()->toString());
+        $userId = UserId::fromString(Str::uuid()->toString());
+
+        $account = Account::open($accountId, $userId);
+
+        $this->assertTrue($account->belongsTo($userId));
+    }
+
+    public function testAccountBelongsToUserFalse(): void
+    {
+        $accountId = AccountId::fromString(Str::uuid()->toString());
+        $userId = UserId::fromString(Str::uuid()->toString());
+        $otherUserId = UserId::fromString(Str::uuid()->toString());
+
+        $account = Account::open($accountId, $userId);
+
+        $this->assertFalse($account->belongsTo($otherUserId));
+    }
 }

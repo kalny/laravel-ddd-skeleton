@@ -63,4 +63,9 @@ class Account extends AggregateRoot
 
         $this->record(new AccountBalanceCredited($this->id, $money, $this->balance));
     }
+
+    public function belongsTo(UserId $userId): bool
+    {
+        return $this->userId->equals($userId);
+    }
 }
