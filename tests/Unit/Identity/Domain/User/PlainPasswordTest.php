@@ -12,14 +12,14 @@ class PlainPasswordTest extends TestCase
     {
         $password = PlainPassword::fromString('password');
 
-        $this->assertSame('password', $password->getValue());
+        $this->assertSame('password', $password->value());
     }
 
     public function testTrimPlainPasswordWhiteSpaces(): void
     {
         $userName = PlainPassword::fromString('  password  ');
 
-        $this->assertSame('password', $userName->getValue());
+        $this->assertSame('password', $userName->value());
     }
 
     public function testCreatePlainPasswordFromEmptyString(): void

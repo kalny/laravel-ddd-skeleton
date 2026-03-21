@@ -23,7 +23,7 @@ final readonly class Email
         return new self(mb_strtolower(trim($value)));
     }
 
-    public function getValue(): string
+    public function value(): string
     {
         return $this->value;
     }

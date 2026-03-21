@@ -22,7 +22,7 @@ class SendUserRegisteredIntegrationEvent
     {
         event(new UserRegisteredIntegrationEvent(
             id: $event->id->value(),
-            email: $event->email->getValue()
+            email: $event->email->value()
         ));
     }
 }

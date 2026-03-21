@@ -18,7 +18,7 @@ final readonly class HashedPassword
         return new self(trim($hash));
     }
 
-    public function getValue(): string
+    public function value(): string
     {
         return $this->hash;
     }

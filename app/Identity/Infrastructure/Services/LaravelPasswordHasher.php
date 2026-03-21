@@ -11,13 +11,13 @@ class LaravelPasswordHasher implements PasswordHasher
 {
     public function hash(PlainPassword $password): HashedPassword
     {
-        $hash = Hash::make($password->getValue());
+        $hash = Hash::make($password->value());
 
         return HashedPassword::fromHash($hash);
     }
 
     public function check(PlainPassword $plainPassword, HashedPassword $hashedPassword): bool
     {
-        return Hash::check($plainPassword->getValue(), $hashedPassword->getValue());
+        return Hash::check($plainPassword->value(), $hashedPassword->value());
     }
 }

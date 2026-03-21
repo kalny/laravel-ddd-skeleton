@@ -22,7 +22,7 @@ final readonly class PlainPassword
         return new self(trim($plain));
     }
 
-    public function getValue(): string
+    public function value(): string
     {
         return $this->plain;
     }

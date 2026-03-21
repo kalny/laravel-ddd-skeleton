@@ -12,14 +12,14 @@ class HashedPasswordTest extends TestCase
     {
         $password = HashedPassword::fromHash('password');
 
-        $this->assertSame('password', $password->getValue());
+        $this->assertSame('password', $password->value());
     }
 
     public function testTrimHashedPasswordWhiteSpaces(): void
     {
         $password = HashedPassword::fromHash('  password  ');
 
-        $this->assertSame('password', $password->getValue());
+        $this->assertSame('password', $password->value());
     }
 
     public function testCreateHashedPasswordFromEmptyString(): void

@@ -22,7 +22,7 @@ class EloquentUserRepository implements UserRepository
     public function existsByEmail(Email $email): bool
     {
        return UserModel::query()
-            ->where('email', $email->getValue())
+            ->where('email', $email->value())
             ->exists();
     }
 
@@ -55,16 +55,16 @@ class EloquentUserRepository implements UserRepository
         $userUuidId = $this->reflectionService->getValue($user->id(), 'uuid');
 
         $userModel = UserModel::query()
-            ->where('id', $userUuidId->getValue())
+            ->where('id', $userUuidId->value())
             ->first();
 
         if (!$userModel) {
             $userModel = new UserModel();
         }
 
-        $userModel->id = $this->reflectionService->getValue($user->id(), 'uuid')->getValue();
-        $userModel->email = $this->reflectionService->getValue($user, 'email')->getValue();
-        $userModel->password = $this->reflectionService->getValue($user, 'password')->getValue();
+        $userModel->id = $this->reflectionService->getValue($user->id(), 'uuid')->value();
+        $userModel->email = $this->reflectionService->getValue($user, 'email')->value();
+        $userModel->password = $this->reflectionService->getValue($user, 'password')->value();
 
         $userModel->saveOrFail();
     }
@@ -72,7 +72,7 @@ class EloquentUserRepository implements UserRepository
     public function findByEmail(Email $email): ?User
     {
         $userModel = UserModel::query()
-            ->where('email', $email->getValue())
+            ->where('email', $email->value())
             ->first();
 
         if (!$userModel) {

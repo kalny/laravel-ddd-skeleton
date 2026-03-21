@@ -15,7 +15,7 @@ class UuidIdTest extends TestCase
 
         $uuidId = new UuidId($uuid);
 
-        $this->assertSame($uuid, $uuidId->getValue());
+        $this->assertSame($uuid, $uuidId->value());
     }
 
     public function testCreateUuidIdFromInvalidString(): void

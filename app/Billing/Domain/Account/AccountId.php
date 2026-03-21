@@ -20,11 +20,11 @@ final readonly class AccountId
 
     public function equals(self $other): bool
     {
-        return $this->uuid->getValue() === $other->uuid->getValue();
+        return $this->uuid->value() === $other->uuid->value();
     }
 
     public function value(): string
     {
-        return $this->uuid->getValue();
+        return $this->uuid->value();
     }
 }

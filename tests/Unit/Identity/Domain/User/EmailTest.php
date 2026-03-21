@@ -13,21 +13,21 @@ class EmailTest extends TestCase
     {
         $email = Email::fromString('test@example.com');
 
-        $this->assertSame('test@example.com', $email->getValue());
+        $this->assertSame('test@example.com', $email->value());
     }
 
     public function testNormalizeEmailToLowerCase(): void
     {
         $email = Email::fromString('Test@Example.com');
 
-        $this->assertSame('test@example.com', $email->getValue());
+        $this->assertSame('test@example.com', $email->value());
     }
 
     public function testTrimEmailWhiteSpaces(): void
     {
         $email = Email::fromString('  test@example.com  ');
 
-        $this->assertSame('test@example.com', $email->getValue());
+        $this->assertSame('test@example.com', $email->value());
     }
 
     public function testCreateEmailWithIncorrectFormat(): void
