@@ -62,7 +62,7 @@ class EloquentUserRepository implements UserRepository
             $userModel = new UserModel();
         }
 
-        $userModel->id = $this->reflectionService->getValue($user->id(), 'uuid')->value();
+        $userModel->id = $user->id()->value();
         $userModel->email = $this->reflectionService->getValue($user, 'email')->value();
         $userModel->password = $this->reflectionService->getValue($user, 'password')->value();
 

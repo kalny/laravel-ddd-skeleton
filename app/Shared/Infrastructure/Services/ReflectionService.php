@@ -12,14 +12,19 @@ class ReflectionService
     /** @var array<string, ReflectionClass> */
     private array $classCache = [];
 
-    /** @var ReflectionProperty */
+    /** @var array<string, array<string, ReflectionProperty>> */
     private array $propertyCache = [];
 
     public function getValue(object $object, string $propertyName): mixed
     {
-        $property = $this->getReflectionProperty($object::class, $propertyName);
+        $arrayOfProperties = explode('.', $propertyName);
 
-        return $property->getValue($object);
+        foreach ($arrayOfProperties as $property) {
+            $property = $this->getReflectionProperty($object::class, $property);
+            $object = $property->getValue($object);
+        }
+
+        return $object;
     }
 
     public function setValue(object $object, string $propertyName, mixed $propertyValue): void

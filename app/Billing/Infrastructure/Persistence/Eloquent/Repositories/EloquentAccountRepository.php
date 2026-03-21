@@ -78,17 +78,10 @@ class EloquentAccountRepository implements AccountRepository
             $accountModel = new AccountModel();
         }
 
-        $balance = $this->reflectionService->getValue($account, 'balance');
-        $balanceValue = $this->reflectionService->getValue($balance, 'amount');
-
-        $currency = $this->reflectionService->getValue($balance, 'currency');
-
-        $userId = $this->reflectionService->getValue($account, 'userId')->value();
-
         $accountModel->id = $account->id()->value();
-        $accountModel->user_id = $userId;
-        $accountModel->balance = $balanceValue;
-        $accountModel->currency = $currency->code();
+        $accountModel->user_id = $this->reflectionService->getValue($account, 'userId')->value();
+        $accountModel->balance = $this->reflectionService->getValue($account, 'balance.amount');
+        $accountModel->currency = $this->reflectionService->getValue($account, 'balance.currency')->code();
 
         $accountModel->saveOrFail();
     }
