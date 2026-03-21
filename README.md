@@ -25,29 +25,58 @@ app
  │    ├── Domain
  │    │    ├── Exceptions
  │    │    └── ValueObjects
+ │    │
  │    ├── Application
  │    │    └── Services
+ │    │
  │    └── Infrastructure
  │         └── Services
- └── Identity
+ │
+ ├── Identity
+ │    ├── Domain
+ │    │    └── User
+ │    │         ├── Events
+ │    │         ├── Exceptions
+ │    │         └── Repositories
+ │    │
+ │    ├── Application
+ │    │    ├── Services
+ │    │    │
+ │    │    └── UseCases
+ │    │         ├── ChangeUserPassword
+ │    │         ├── ChangeUserEmail
+ │    │         └── RegisterUser
+ │    │
+ │    └── Infrastructure
+ │         ├── Persistence
+ │         │    └── Eloquent
+ │         │         ├── Models
+ │         │         └── Repositories
+ │         │
+ │         ├── Services
+ │         ├── DomainEventListeners
+ │         ├── IntegrationEvents
+ │         └── IntegrationEventListeners
+ │         
+ └── Billing
       ├── Domain
-      │    └── User
-      │         ├── Events
-      │         ├── Exceptions
-      │         └── Repositories
+      │    ├── Account
+      │    │    ├── Events
+      │    │    ├── Exceptions
+      │    │    └── Repositories
+      │    │
+      |    └── Services
       │
       ├── Application
-      │    ├── Services
       │    └── UseCases
-      │         ├── ChangeUserPassword
-      │         ├── ChangeUserEmail
-      │         └── RegisterUser
+      │         └── OpenAccount
       │
       └── Infrastructure
            ├── Persistence
            │    └── Eloquent
            │         ├── Models
            │         └── Repositories
+           │
            ├── Services
            ├── DomainEventListeners
            ├── IntegrationEvents
