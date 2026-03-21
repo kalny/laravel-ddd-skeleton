@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\BillingController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,9 @@ Route::name('api.')->group(function () {
             ->middleware('auth:sanctum');
         Route::post('/{id}/change-password', [UserController::class, 'changePassword'])
             ->name('change-password')
+            ->middleware('auth:sanctum');
+        Route::post('/{id}/deposit', [BillingController::class, 'deposit'])
+            ->name('deposit')
             ->middleware('auth:sanctum');
     });
 });

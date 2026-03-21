@@ -17,14 +17,14 @@ class CurrencyTest extends TestCase
 
     public function testSuccessfullyCreateCurrencyFromStringAndTransformToUpperCase(): void
     {
-        $usd = Currency::fromString('usd');
+        $usd = Currency::fromCode('usd');
 
         $this->assertTrue($usd->equals(Currency::USD()));
     }
 
     public function testSuccessfullyCreateCurrencyFromStringAndTrim(): void
     {
-        $usd = Currency::fromString(' USD ');
+        $usd = Currency::fromCode(' USD ');
 
         $this->assertTrue($usd->equals(Currency::USD()));
     }
@@ -32,7 +32,7 @@ class CurrencyTest extends TestCase
     public function testCreateCurrencyFromWrongString(): void
     {
         $this->expectException(InvalidCurrencyException::class);
-        Currency::fromString('ABC');
+        Currency::fromCode('ABC');
     }
 
     public function testCurrencyNotEquals(): void

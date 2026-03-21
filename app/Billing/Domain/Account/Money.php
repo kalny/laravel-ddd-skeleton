@@ -5,6 +5,7 @@ namespace App\Billing\Domain\Account;
 use App\Billing\Domain\Account\Exceptions\CurrenciesMismatchException;
 use App\Billing\Domain\Account\Exceptions\InsufficientFundsException;
 use App\Billing\Domain\Account\Exceptions\InvalidMoneyException;
+use App\Billing\Domain\Account\Exceptions\NegativeMultiplierException;
 
 final readonly class Money
 {
@@ -19,6 +20,21 @@ final readonly class Money
         }
 
         return new self($amount, $currency);
+    }
+
+    public static function fromString(string $amount, Currency $currency): self
+    {
+        $clean = str_replace([' ', ','], ['', '.'], trim($amount));
+
+        if (!is_numeric($clean)) {
+            throw new InvalidMoneyException('Amount should be a number');
+        }
+
+        $float = (float) $clean;
+
+        $minor = (int) round($float * pow(10, $currency->decimalPlaces()));
+
+        return self::fromMinor($minor, $currency);
     }
 
     public static function zero(Currency $currency): self
@@ -44,14 +60,17 @@ final readonly class Money
 
     public function multiply(int $multiplier): self
     {
+        if ($multiplier < 0) {
+            throw NegativeMultiplierException::withValue($multiplier);
+        }
+
         return new self($this->amount * $multiplier, $this->currency);
     }
 
     public function equals(self $other): bool
     {
-        $this->assertSameCurrency($other->currency);
-
-        return $this->amount === $other->amount;
+        return $this->amount === $other->amount
+            && $this->currency->equals($other->currency);
     }
 
     public function gt(self $other): bool

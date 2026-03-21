@@ -69,7 +69,8 @@ app
       │
       ├── Application
       │    └── UseCases
-      │         └── OpenAccount
+      │         ├── OpenAccount
+      │         └── Deposit
       │
       └── Infrastructure
            ├── Persistence
@@ -249,6 +250,73 @@ Example response:
 ```json
 {
   "status": "success"
+}
+```
+
+### Change User Email
+
+```
+POST /api/users/{id}/change-email
+```
+
+Request body:
+
+```json
+{
+  "email": "new_email@gmail.com"
+}
+```
+
+Example response:
+
+```json
+{
+    "status": "success"
+}
+```
+
+### Change User Password
+
+```
+POST /api/users/{id}/change-password
+```
+
+Request body:
+
+```json
+{
+  "password": "new_password"
+}
+```
+
+Example response:
+
+```json
+{
+    "status": "success"
+}
+```
+
+### Deposit
+
+```
+POST /api/users/{id}/deposit
+```
+
+Request body:
+
+```json
+{
+  "amount": "1000.50",
+  "currency": "USD"
+}
+```
+
+Example response:
+
+```json
+{
+    "status": "success"
 }
 ```
 

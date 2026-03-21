@@ -35,7 +35,7 @@ class EloquentAccountRepository implements AccountRepository
             'userId' => UserId::fromString($accountModel->user_id),
             'balance' => Money::fromMinor(
                 $accountModel->balance,
-                Currency::fromString($accountModel->currency)
+                Currency::fromCode($accountModel->currency)
             ),
         ]);
 
@@ -58,7 +58,7 @@ class EloquentAccountRepository implements AccountRepository
             'userId' => UserId::fromString($accountModel->user_id),
             'balance' => Money::fromMinor(
                 $accountModel->balance,
-                Currency::fromString($accountModel->currency)
+                Currency::fromCode($accountModel->currency)
             ),
         ]);
 
@@ -82,14 +82,13 @@ class EloquentAccountRepository implements AccountRepository
         $balanceValue = $this->reflectionService->getValue($balance, 'amount');
 
         $currency = $this->reflectionService->getValue($balance, 'currency');
-        $currencyCode = $this->reflectionService->getValue($currency, 'code');
 
         $userId = $this->reflectionService->getValue($account, 'userId')->value();
 
         $accountModel->id = $account->id()->value();
         $accountModel->user_id = $userId;
         $accountModel->balance = $balanceValue;
-        $accountModel->currency = $currencyCode;
+        $accountModel->currency = $currency->code();
 
         $accountModel->saveOrFail();
     }
