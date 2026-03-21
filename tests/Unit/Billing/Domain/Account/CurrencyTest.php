@@ -3,6 +3,7 @@
 namespace Tests\Unit\Billing\Domain\Account;
 
 use App\Billing\Domain\Account\Currency;
+use App\Billing\Domain\Account\Exceptions\InvalidCurrencyException;
 use Tests\TestCase;
 
 class CurrencyTest extends TestCase
@@ -26,6 +27,12 @@ class CurrencyTest extends TestCase
         $usd = Currency::fromString(' USD ');
 
         $this->assertTrue($usd->equals(Currency::USD()));
+    }
+
+    public function testCreateCurrencyFromWrongString(): void
+    {
+        $this->expectException(InvalidCurrencyException::class);
+        Currency::fromString('ABC');
     }
 
     public function testCurrencyNotEquals(): void
