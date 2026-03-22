@@ -5,9 +5,9 @@ namespace App\Providers;
 use App\Billing\Application\UseCases\OpenAccount\OpenAccount;
 use App\Billing\Application\UseCases\OpenAccount\OpenAccountHandler;
 use App\Billing\Domain\Account\Repositories\AccountRepository;
-use App\Billing\Domain\Services\CurrencyPolicy;
+use App\Billing\Domain\Policies\DefaultCurrencyPolicy;
 use App\Billing\Infrastructure\Persistence\Eloquent\Repositories\EloquentAccountRepository;
-use App\Billing\Infrastructure\Services\DefaultCurrencyPolicy;
+use App\Billing\Infrastructure\Policies\DefaultCurrencyStaticPolicy;
 use App\Identity\Application\Services\PasswordHasher;
 use App\Identity\Application\Services\TokenManager;
 use App\Identity\Domain\User\Repositories\UserRepository;
@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
         OpenAccount::class => OpenAccountHandler::class,
 
         // Policies
-        CurrencyPolicy::class => DefaultCurrencyPolicy::class,
+        DefaultCurrencyPolicy::class => DefaultCurrencyStaticPolicy::class,
     ];
 
     /**

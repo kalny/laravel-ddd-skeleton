@@ -65,7 +65,7 @@ app
       │    │    ├── Exceptions
       │    │    └── Repositories
       │    │
-      |    └── Services
+      |    └── Policies
       │
       ├── Application
       │    └── UseCases
@@ -78,7 +78,7 @@ app
            │         ├── Models
            │         └── Repositories
            │
-           ├── Services
+           ├── Policies
            ├── DomainEventListeners
            ├── IntegrationEvents
            └── IntegrationEventListeners
