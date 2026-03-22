@@ -1,9 +1,10 @@
 <?php
 
+use App\Shared\Domain\Exceptions\DomainExceptionBase;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Laravel\Prompts\Concerns\Events;
+use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -16,7 +17,11 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->renderable(function (DomainExceptionBase $exception, Request $request) {
+            if ($request->wantsJson() || $request->is('api/*')) {
+                abort(422, $exception->getMessage());
+            }
+        });
     })
     ->withEvents(discover: [
         __DIR__ . '/../app/Identity/Infrastructure/DomainEventListeners',
