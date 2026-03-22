@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\API\Billing;
 
-use App\Billing\Application\UseCases\Deposit\DepositCommand;
+use App\Billing\Application\UseCases\Commands\Deposit\DepositCommand;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

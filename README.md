@@ -14,7 +14,7 @@ Includes a fully working **User Registration example** that shows how all layers
 # Architecture Overview
 
 ```
-[HTTP Request] → [Controller] → [UseCase] → [Domain Entities & ValueObjects] → [Infrastructure Repository] → [Database]
+[HTTP Request] → [Controller] → [CommandBus] → [Command] → [Domain Entities & ValueObjects] → [Infrastructure Repository] → [Database]
 ```
 
 Folder structure:
@@ -27,9 +27,11 @@ app
  │    │    └── ValueObjects
  │    │
  │    ├── Application
+ │    │    ├── Bus
  │    │    └── Services
  │    │
  │    └── Infrastructure
+ │         ├── Bus
  │         └── Services
  │
  ├── Identity
@@ -40,12 +42,18 @@ app
  │    │         └── Repositories
  │    │
  │    ├── Application
+ │    │    ├── DTO
  │    │    ├── Services
- │    │    │
  │    │    └── UseCases
- │    │         ├── ChangeUserPassword
- │    │         ├── ChangeUserEmail
- │    │         └── RegisterUser
+ │    │         ├── Commands
+ │    │         │    ├── ChangeUserPassword
+ │    │         │    ├── ChangeUserEmail
+ │    │         │    ├── RegisterUser
+ │    │         │    ├── LoginUser
+ │    │         │    └── LogoutUser
+ │    │         │
+ │    │         └── Queries
+ │    │              └── GetUser
  │    │
  │    └── Infrastructure
  │         ├── Persistence
@@ -68,9 +76,14 @@ app
       |    └── Policies
       │
       ├── Application
+      │    ├── DTO
       │    └── UseCases
-      │         ├── OpenAccount
-      │         └── Deposit
+      │         ├── Commands
+      │         │    ├── OpenAccount
+      │         │    └── Deposit
+      │         │
+      │         └── Queries
+      │              └── GetAccount
       │
       └── Infrastructure
            ├── Persistence

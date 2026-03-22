@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\API\Auth;
 
-use App\Identity\Application\UseCases\LoginUser\LoginUserResult;
+use App\Identity\Application\DTO\UserDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,7 +15,7 @@ class LoginUserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        /** @var LoginUserResult $this */
+        /** @var UserDTO $this */
         return [
             'id' => $this->id,
             'email' => $this->email,

@@ -8,10 +8,10 @@ use App\Http\Requests\API\Auth\RegisterRequest;
 use App\Http\Resources\API\Auth\LoginUserResource;
 use App\Http\Resources\API\Auth\RegisterUserResource;
 use App\Identity\Application\Services\TokenManager;
-use App\Identity\Application\UseCases\LoginUser\LoginUserHandler;
-use App\Identity\Application\UseCases\LogoutUser\LogoutUserCommand;
-use App\Identity\Application\UseCases\LogoutUser\LogoutUserHandler;
-use App\Identity\Application\UseCases\RegisterUser\RegisterUserHandler;
+use App\Identity\Application\UseCases\Commands\LogoutUser\LogoutUserCommand;
+use App\Identity\Application\UseCases\Queries\GetUser\GetUserQuery;
+use App\Shared\Application\Bus\CommandBus;
+use App\Shared\Application\Bus\QueryBus;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,37 +19,41 @@ class AuthController extends Controller
 {
     public function register(
         RegisterRequest $request,
-        RegisterUserHandler $handler,
         TokenManager $tokenManager,
+        CommandBus $commandBus,
+        QueryBus $queryBus
     ): RegisterUserResource {
-        $result = $handler->handle($request->toCommand());
+        $userId = $commandBus->dispatchWithReturn($request->toCommand());
+
+        $result = $queryBus->ask(new GetUserQuery($userId->value()));
 
         return (new RegisterUserResource($result))
             ->additional([
-                'token' => $tokenManager->create($result->id)
+                'token' => $tokenManager->create($userId)
             ]);
     }
 
     public function login(
         LoginRequest $request,
-        LoginUserHandler $handler,
         TokenManager $tokenManager,
+        CommandBus $commandBus,
+        QueryBus $queryBus
     ): LoginUserResource {
-        $result = $handler->handle($request->toCommand());
+        $userId = $commandBus->dispatchWithReturn($request->toCommand());
+
+        $result = $queryBus->ask(new GetUserQuery($userId->value()));
 
         return (new LoginUserResource($result))
             ->additional([
-                'token' => $tokenManager->create($result->id)
+                'token' => $tokenManager->create($userId)
             ]);
     }
 
     public function logout(
-        LogoutUserHandler $handler,
-        TokenManager $tokenManager,
+        TokenManager$tokenManager,
+        CommandBus $commandBus,
     ): JsonResponse {
-        $handler->handle(new LogoutUserCommand(
-            id: Auth::user()->id
-        ));
+        $commandBus->dispatch(new LogoutUserCommand(Auth::user()->id));
 
         $tokenManager->delete();
 

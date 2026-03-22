@@ -5,8 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\User\ChangeUserEmailRequest;
 use App\Http\Requests\API\User\ChangeUserPasswordRequest;
-use App\Identity\Application\UseCases\ChangeUserEmail\ChangeUserEmailHandler;
-use App\Identity\Application\UseCases\ChangeUserPassword\ChangeUserPasswordHandler;
+use App\Shared\Application\Bus\CommandBus;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
@@ -14,10 +13,9 @@ class UserController extends Controller
     public function changePassword(
         string $id,
         ChangeUserPasswordRequest $request,
-        ChangeUserPasswordHandler $handler
+        CommandBus $commandBus
     ): JsonResponse {
-        $command = $request->toCommand($id);
-        $handler->handle($command);
+        $commandBus->dispatch($request->toCommand($id));
 
         return response()->json([
             'status' => 'success',
@@ -27,10 +25,9 @@ class UserController extends Controller
     public function changeEmail(
         string $id,
         ChangeUserEmailRequest $request,
-        ChangeUserEmailHandler $handler
+        CommandBus $commandBus
     ): JsonResponse {
-        $command = $request->toCommand($id);
-        $handler->handle($command);
+        $commandBus->dispatch($request->toCommand($id));
 
         return response()->json([
             'status' => 'success',

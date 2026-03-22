@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class LaravelTokenManager implements TokenManager
 {
-    public function create(string $userId): string
+    public function create(UserId $userId): string
     {
         $userModel = User::query()
-            ->where('id', $userId)
+            ->where('id', $userId->value())
             ->first();
 
         if (!$userModel) {

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Billing\Application\UseCases\Deposit\DepositHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Billing\DepositRequest;
+use App\Shared\Application\Bus\CommandBus;
 use Illuminate\Http\JsonResponse;
 
 class BillingController extends Controller
@@ -12,10 +12,9 @@ class BillingController extends Controller
     public function deposit(
         string $id,
         DepositRequest $request,
-        DepositHandler $handler
+        CommandBus $commandBus
     ): JsonResponse {
-        $command = $request->toCommand($id);
-        $handler->handle($command);
+        $commandBus->dispatch($request->toCommand($id));
 
         return response()->json([
             'status' => 'success',

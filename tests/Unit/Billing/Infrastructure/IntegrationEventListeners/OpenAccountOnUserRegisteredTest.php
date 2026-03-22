@@ -2,11 +2,10 @@
 
 namespace Tests\Unit\Billing\Infrastructure\IntegrationEventListeners;
 
-use App\Billing\Application\UseCases\OpenAccount\OpenAccount;
-use App\Billing\Application\UseCases\OpenAccount\OpenAccountCommand;
-use App\Billing\Application\UseCases\OpenAccount\OpenAccountResult;
+use App\Billing\Application\UseCases\Commands\OpenAccount\OpenAccountCommand;
 use App\Billing\Infrastructure\IntegrationEventListeners\OpenAccountOnUserRegistered;
 use App\Identity\Infrastructure\IntegrationEvents\UserRegisteredIntegrationEvent;
+use App\Shared\Application\Bus\CommandBus;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -16,21 +15,16 @@ class OpenAccountOnUserRegisteredTest extends TestCase
     {
         $userId = Str::uuid()->toString();
 
-        $openAccountHandlerMock = $this->createMock(OpenAccount::class);
+        $commandBusMock = $this->createMock(CommandBus::class);
 
-        $openAccountHandlerMock
+        $commandBusMock
             ->expects($this->once())
-            ->method('handle')
+            ->method('dispatch')
             ->with($this->callback(function (OpenAccountCommand $command) use ($userId) {
                 return $command->userId === $userId && $command->balance === 0;
-            }))
-            ->willReturn(new OpenAccountResult(
-                id: Str::uuid()->toString(),
-                userId: $userId,
-                balance: 0,
-            ));
+            }));
 
-        $listener = new OpenAccountOnUserRegistered($openAccountHandlerMock);
+        $listener = new OpenAccountOnUserRegistered($commandBusMock);
 
         $event = new UserRegisteredIntegrationEvent(
             id: $userId,
