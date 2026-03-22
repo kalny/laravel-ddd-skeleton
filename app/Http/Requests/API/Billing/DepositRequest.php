@@ -34,9 +34,6 @@ class DepositRequest extends FormRequest
 
             'currency' => [
                 'required',
-                'string',
-                'size:3',
-                'regex:/^[A-Z]{3}$/',
                 Rule::in(['USD', 'EUR', 'UAH']),
             ],
         ];
