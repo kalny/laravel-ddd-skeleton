@@ -37,7 +37,7 @@ class UserControllerTest extends TestCase
 
         Sanctum::actingAs($userModel);
 
-        $response = $this->postJson(
+        $response = $this->patchJson(
             route('api.users.change-password', ['id' => $userModel->id]),
             $payload
         );
@@ -60,7 +60,7 @@ class UserControllerTest extends TestCase
             'password' => 'new_password',
         ];
 
-        $response = $this->postJson(
+        $response = $this->patchJson(
             route('api.users.change-password', ['id' => $userModel->id]),
             $payload
         );
@@ -78,7 +78,7 @@ class UserControllerTest extends TestCase
 
         Sanctum::actingAs($userModel);
 
-        $response = $this->postJson(
+        $response = $this->patchJson(
             route('api.users.change-password', ['id' => $userModel->id]),
             $payload
         );
@@ -101,7 +101,7 @@ class UserControllerTest extends TestCase
 
         Sanctum::actingAs($userModel);
 
-        $response = $this->postJson(
+        $response = $this->patchJson(
             route('api.users.change-email', ['id' => $userModel->id]),
             $payload
         );
@@ -125,7 +125,7 @@ class UserControllerTest extends TestCase
             'email' => 'new_username@gmail.com',
         ];
 
-        $response = $this->postJson(
+        $response = $this->patchJson(
             route('api.users.change-email', ['id' => $userModel->id]),
             $payload
         );
@@ -143,7 +143,7 @@ class UserControllerTest extends TestCase
 
         Sanctum::actingAs($userModel);
 
-        $response = $this->postJson(
+        $response = $this->patchJson(
             route('api.users.change-email', ['id' => $userModel->id]),
             $payload
         );

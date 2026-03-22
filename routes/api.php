@@ -16,10 +16,10 @@ Route::name('api.')->group(function () {
             ->middleware('auth:sanctum');
     });
     Route::prefix('users')->name('users.')->group(function () {
-        Route::post('/{id}/change-email', [UserController::class, 'changeEmail'])
+        Route::patch('/{id}/change-email', [UserController::class, 'changeEmail'])
             ->name('change-email')
             ->middleware('auth:sanctum');
-        Route::post('/{id}/change-password', [UserController::class, 'changePassword'])
+        Route::patch('/{id}/change-password', [UserController::class, 'changePassword'])
             ->name('change-password')
             ->middleware('auth:sanctum');
         Route::post('/{id}/deposit', [BillingController::class, 'deposit'])
