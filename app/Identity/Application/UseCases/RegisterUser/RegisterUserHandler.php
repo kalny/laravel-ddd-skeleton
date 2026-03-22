@@ -3,7 +3,6 @@
 namespace App\Identity\Application\UseCases\RegisterUser;
 
 use App\Identity\Application\Services\PasswordHasher;
-use App\Identity\Application\Services\TokenManager;
 use App\Identity\Domain\User\Email;
 use App\Identity\Domain\User\Exceptions\UserAlreadyExistsException;
 use App\Identity\Domain\User\PlainPassword;
@@ -21,7 +20,6 @@ final class RegisterUserHandler
         private readonly PasswordHasher $hasher,
         private readonly TransactionManager $transactionManager,
         private readonly EventDispatcher $dispatcher,
-        private readonly TokenManager $tokenManager,
         private readonly UserRepository $users,
     ) {
     }
@@ -50,7 +48,6 @@ final class RegisterUserHandler
             return new RegisterUserResult(
                 id: $id,
                 email: $command->email,
-                token: $this->tokenManager->create(UserId::fromString($id))
             );
         });
     }

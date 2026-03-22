@@ -19,7 +19,7 @@ class RegisterUserResource extends JsonResource
         return [
             'id' => $this->id,
             'email' => $this->email,
-            'token' => $this->token,
+            'token' => $this->additional['token'] ?? null,
         ];
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Identity\Infrastructure\Services;
 
-use App\Identity\Domain\User\UserId;
 use App\Identity\Infrastructure\Persistence\Eloquent\Models\User;
 use App\Identity\Infrastructure\Services\LaravelTokenManager;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -19,7 +18,7 @@ class LaravelTokenManagerTest extends TestCase
 
         $manager = app(LaravelTokenManager::class);
 
-        $token = $manager->create(UserId::fromString($userModel->id));
+        $token = $manager->create($userModel->id);
 
         [$id, $plainToken] = explode('|', $token);
         $model = PersonalAccessToken::find($id);

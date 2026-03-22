@@ -6,8 +6,7 @@ final readonly class RegisterUserResult
 {
     public function __construct(
         public string $id,
-        public string $email,
-        public string $token,
+        public string $email
     ) {
     }
 }
