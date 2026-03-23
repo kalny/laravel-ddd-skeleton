@@ -8,7 +8,6 @@ use App\Identity\Domain\User\Events\UserPasswordChanged;
 use App\Identity\Infrastructure\Persistence\Eloquent\Models\User;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class ChangeUserPasswordHandlerTest extends TestCase
@@ -21,8 +20,6 @@ class ChangeUserPasswordHandlerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        Event::fake();
 
         $this->handler = app(ChangeUserPasswordCommandHandler::class);
         $this->hasher = app(Hasher::class);
@@ -40,14 +37,14 @@ class ChangeUserPasswordHandlerTest extends TestCase
             password: 'new_password'
         );
 
-        $this->handler->handle($command);
+        $result = $this->handler->handle($command);
+
+        $this->assertInstanceOf(UserPasswordChanged::class, $result->events()[0]);
 
         $user = User::query()
             ->where('id', $userModel->id)
             ->first();
 
         $this->assertTrue($this->hasher->check('new_password', $user->password));
-
-        Event::assertDispatched(UserPasswordChanged::class);
     }
 }

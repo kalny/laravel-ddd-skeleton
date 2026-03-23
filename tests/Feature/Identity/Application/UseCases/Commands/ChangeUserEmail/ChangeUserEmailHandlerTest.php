@@ -8,7 +8,6 @@ use App\Identity\Domain\User\Events\UserEmailChanged;
 use App\Identity\Domain\User\Exceptions\EmailAlreadyTakenException;
 use App\Identity\Infrastructure\Persistence\Eloquent\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class ChangeUserEmailHandlerTest extends TestCase
@@ -20,7 +19,6 @@ class ChangeUserEmailHandlerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Event::fake();
 
         $this->handler = app(ChangeUserEmailCommandHandler::class);
     }
@@ -37,14 +35,14 @@ class ChangeUserEmailHandlerTest extends TestCase
             email: 'new_username@test.com'
         );
 
-        $this->handler->handle($command);
+        $result = $this->handler->handle($command);
+
+        $this->assertInstanceOf(UserEmailChanged::class, $result->events()[0]);
 
         $this->assertDatabaseHas('users', [
             'id' => $userModel->id,
             'email' => 'new_username@test.com',
         ]);
-
-        Event::assertDispatched(UserEmailChanged::class);
     }
 
     public function testHandleSuccessfullyWithSameEmail(): void
@@ -59,14 +57,14 @@ class ChangeUserEmailHandlerTest extends TestCase
             email: 'username@test.com'
         );
 
-        $this->handler->handle($command);
+        $result = $this->handler->handle($command);
+
+        $this->assertSame(0, count($result->events()));
 
         $this->assertDatabaseHas('users', [
             'id' => $userModel->id,
             'email' => 'username@test.com',
         ]);
-
-        Event::assertNotDispatched(UserEmailChanged::class);
     }
 
     public function testHandleSuccessfullyWithAlreadyExistingEmail(): void

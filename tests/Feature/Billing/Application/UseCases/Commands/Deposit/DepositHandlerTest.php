@@ -8,7 +8,6 @@ use App\Billing\Domain\Account\Events\AccountBalanceCredited;
 use App\Billing\Infrastructure\Persistence\Eloquent\Models\Account;
 use App\Identity\Infrastructure\Persistence\Eloquent\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class DepositHandlerTest extends TestCase
@@ -20,8 +19,6 @@ class DepositHandlerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        Event::fake();
 
         $this->handler = app(DepositCommandHandler::class);
     }
@@ -39,13 +36,13 @@ class DepositHandlerTest extends TestCase
             currency: 'USD',
         );
 
-        $this->handler->handle($command);
+        $result = $this->handler->handle($command);
+
+        $this->assertInstanceOf(AccountBalanceCredited::class, $result->events()[0]);
 
         $this->assertDatabaseHas('accounts', [
             'user_id' => $userModel->id,
             'balance' => '10050',
         ]);
-
-        Event::assertDispatched(AccountBalanceCredited::class);
     }
 }

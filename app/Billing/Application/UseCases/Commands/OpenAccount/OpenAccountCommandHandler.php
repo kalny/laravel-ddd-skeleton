@@ -10,14 +10,12 @@ use App\Billing\Domain\Account\Repositories\AccountRepository;
 use App\Billing\Domain\Account\UserId;
 use App\Billing\Domain\Policies\DefaultCurrencyPolicy;
 use App\Shared\Application\Bus\CommandResult;
-use App\Shared\Application\Bus\EventBus;
 use App\Shared\Application\Services\IdGenerator;
 
 final class OpenAccountCommandHandler implements OpenAccount
 {
     public function __construct(
         private readonly IdGenerator $idGenerator,
-        private readonly EventBus $eventBus,
         private readonly AccountRepository $accounts,
         private readonly DefaultCurrencyPolicy $currencyPolicy
     ) {
@@ -43,10 +41,6 @@ final class OpenAccountCommandHandler implements OpenAccount
 
         $this->accounts->save($account);
 
-        foreach ($account->releaseEvents() as $event) {
-            $this->eventBus->dispatch($event);
-        }
-
-        return CommandResult::success();
+        return CommandResult::success(null, $account->releaseEvents());
     }
 }

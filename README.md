@@ -28,10 +28,12 @@ app
  │    │
  │    ├── Application
  │    │    ├── Bus
+ |    |    |    └── Middlewares
  │    │    └── Services
  │    │
  │    └── Infrastructure
  │         ├── Bus
+ |         |    └── Middlewares
  │         └── Services
  │
  ├── Identity

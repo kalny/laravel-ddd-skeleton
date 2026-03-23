@@ -9,7 +9,6 @@ use App\Billing\Domain\Account\Exceptions\AccountAlreadyExistsException;
 use App\Billing\Infrastructure\Persistence\Eloquent\Models\Account;
 use App\Identity\Infrastructure\Persistence\Eloquent\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class OpenAccountHandlerTest extends TestCase
@@ -21,8 +20,6 @@ class OpenAccountHandlerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        Event::fake();
 
         $this->handler = app(OpenAccountCommandHandler::class);
     }
@@ -36,14 +33,14 @@ class OpenAccountHandlerTest extends TestCase
             balance: 100,
         );
 
-        $this->handler->handle($command);
+        $result = $this->handler->handle($command);
+
+        $this->assertInstanceOf(AccountOpened::class, $result->events()[0]);
 
         $this->assertDatabaseHas('accounts', [
             'user_id' => $userModel->id,
             'balance' => 100,
         ]);
-
-        Event::assertDispatched(AccountOpened::class);
     }
 
     public function testHandleAccountAlreadyExists(): void

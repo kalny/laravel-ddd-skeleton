@@ -10,7 +10,6 @@ use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Domain\User\User;
 use App\Identity\Domain\User\UserId;
 use App\Shared\Application\Bus\CommandResult;
-use App\Shared\Application\Bus\EventBus;
 use App\Shared\Application\Services\IdGenerator;
 
 final class RegisterUserCommandHandler
@@ -18,7 +17,6 @@ final class RegisterUserCommandHandler
     public function __construct(
         private readonly IdGenerator $idGenerator,
         private readonly PasswordHasher $hasher,
-        private readonly EventBus $eventBus,
         private readonly UserRepository $users,
     ) {
     }
@@ -39,10 +37,6 @@ final class RegisterUserCommandHandler
 
         $this->users->save($user);
 
-        foreach ($user->releaseEvents() as $event) {
-            $this->eventBus->dispatch($event);
-        }
-
-        return CommandResult::success(UserId::fromString($id));
+        return CommandResult::success(UserId::fromString($id), $user->releaseEvents());
     }
 }

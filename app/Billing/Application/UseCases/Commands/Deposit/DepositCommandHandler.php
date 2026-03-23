@@ -7,12 +7,10 @@ use App\Billing\Domain\Account\Money;
 use App\Billing\Domain\Account\Repositories\AccountRepository;
 use App\Billing\Domain\Account\UserId;
 use App\Shared\Application\Bus\CommandResult;
-use App\Shared\Application\Bus\EventBus;
 
 final class DepositCommandHandler
 {
     public function __construct(
-        private readonly EventBus $eventBus,
         private readonly AccountRepository $accounts,
     ) {
     }
@@ -27,10 +25,6 @@ final class DepositCommandHandler
 
         $this->accounts->save($account);
 
-        foreach ($account->releaseEvents() as $event) {
-            $this->eventBus->dispatch($event);
-        }
-
-        return CommandResult::success();
+        return CommandResult::success(null, $account->releaseEvents());
     }
 }

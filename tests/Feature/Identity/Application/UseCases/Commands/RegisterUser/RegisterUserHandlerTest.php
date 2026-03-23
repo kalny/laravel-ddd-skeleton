@@ -8,7 +8,6 @@ use App\Identity\Domain\User\Events\UserRegistered;
 use App\Identity\Domain\User\Exceptions\UserAlreadyExistsException;
 use App\Identity\Infrastructure\Persistence\Eloquent\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class RegisterUserHandlerTest extends TestCase
@@ -21,8 +20,6 @@ class RegisterUserHandlerTest extends TestCase
     {
         parent::setUp();
 
-        Event::fake();
-
         $this->handler = app(RegisterUserCommandHandler::class);
     }
 
@@ -33,13 +30,13 @@ class RegisterUserHandlerTest extends TestCase
             password: 'password',
         );
 
-        $this->handler->handle($command);
+        $result = $this->handler->handle($command);
+
+        $this->assertInstanceOf(UserRegistered::class, $result->events()[0]);
 
         $this->assertDatabaseHas('users', [
             'email' => 'username@test.com'
         ]);
-
-        Event::assertDispatched(UserRegistered::class);
     }
 
     public function testHandleUserAlreadyExists(): void
