@@ -23,7 +23,7 @@ class AuthController extends Controller
         CommandBus $commandBus,
         QueryBus $queryBus
     ): RegisterUserResource {
-        $userId = $commandBus->dispatchWithReturn($request->toCommand());
+        $userId = $commandBus->dispatch($request->toCommand())->payload();
 
         $result = $queryBus->ask(new GetUserQuery($userId->value()));
 
@@ -39,7 +39,7 @@ class AuthController extends Controller
         CommandBus $commandBus,
         QueryBus $queryBus
     ): LoginUserResource {
-        $userId = $commandBus->dispatchWithReturn($request->toCommand());
+        $userId = $commandBus->dispatch($request->toCommand())->payload();
 
         $result = $queryBus->ask(new GetUserQuery($userId->value()));
 

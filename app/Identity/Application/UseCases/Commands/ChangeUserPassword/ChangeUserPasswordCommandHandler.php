@@ -6,6 +6,7 @@ use App\Identity\Application\Services\PasswordHasher;
 use App\Identity\Domain\User\PlainPassword;
 use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Domain\User\UserId;
+use App\Shared\Application\Bus\CommandResult;
 use App\Shared\Application\Bus\EventBus;
 use App\Shared\Application\Services\TransactionManager;
 
@@ -19,7 +20,7 @@ final class ChangeUserPasswordCommandHandler
     ){
     }
 
-    public function handle(ChangeUserPasswordCommand $command): void
+    public function handle(ChangeUserPasswordCommand $command): CommandResult
     {
         $user = $this->users->get(UserId::fromString($command->id));
 
@@ -32,5 +33,7 @@ final class ChangeUserPasswordCommandHandler
                 $this->eventBus->dispatch($event);
             }
          });
+
+        return CommandResult::success();
     }
 }

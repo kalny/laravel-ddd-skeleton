@@ -40,7 +40,7 @@ class LoginUserHandlerTest extends TestCase
 
         $result = $this->handler->handle($command);
 
-        $this->assertSame($userModel->id, $result->value());
+        $this->assertSame($userModel->id, $result->payload()->value());
     }
 
     public function testHandleUserNotFound(): void

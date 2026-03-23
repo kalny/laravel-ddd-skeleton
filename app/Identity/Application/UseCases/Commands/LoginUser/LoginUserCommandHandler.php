@@ -8,6 +8,7 @@ use App\Identity\Domain\User\Exceptions\InvalidCredentialsException;
 use App\Identity\Domain\User\PlainPassword;
 use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Domain\User\UserId;
+use App\Shared\Application\Bus\CommandResult;
 
 final class LoginUserCommandHandler
 {
@@ -17,7 +18,7 @@ final class LoginUserCommandHandler
     ) {
     }
 
-    public function handle(LoginUserCommand $command): UserId
+    public function handle(LoginUserCommand $command): CommandResult
     {
         $user = $this->users->findByEmail(Email::fromString($command->email));
 
@@ -25,6 +26,6 @@ final class LoginUserCommandHandler
             throw new InvalidCredentialsException();
         }
 
-        return $user->id();
+        return CommandResult::success($user->id());
     }
 }

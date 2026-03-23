@@ -6,6 +6,7 @@ use App\Billing\Domain\Account\Currency;
 use App\Billing\Domain\Account\Money;
 use App\Billing\Domain\Account\Repositories\AccountRepository;
 use App\Billing\Domain\Account\UserId;
+use App\Shared\Application\Bus\CommandResult;
 use App\Shared\Application\Bus\EventBus;
 use App\Shared\Application\Services\TransactionManager;
 
@@ -18,7 +19,7 @@ final class DepositCommandHandler
     ) {
     }
 
-    public function handle(DepositCommand $command): void
+    public function handle(DepositCommand $command): CommandResult
     {
         $deposit = Money::fromString($command->amount, Currency::fromCode($command->currency));
 
@@ -33,5 +34,7 @@ final class DepositCommandHandler
                 $this->eventBus->dispatch($event);
             }
         });
+
+        return CommandResult::success();
     }
 }

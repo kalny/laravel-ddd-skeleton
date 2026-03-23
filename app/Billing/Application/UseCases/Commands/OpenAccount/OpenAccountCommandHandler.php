@@ -9,6 +9,7 @@ use App\Billing\Domain\Account\Money;
 use App\Billing\Domain\Account\Repositories\AccountRepository;
 use App\Billing\Domain\Account\UserId;
 use App\Billing\Domain\Policies\DefaultCurrencyPolicy;
+use App\Shared\Application\Bus\CommandResult;
 use App\Shared\Application\Bus\EventBus;
 use App\Shared\Application\Services\IdGenerator;
 use App\Shared\Application\Services\TransactionManager;
@@ -24,7 +25,7 @@ final class OpenAccountCommandHandler implements OpenAccount
     ) {
     }
 
-    public function handle(OpenAccountCommand $command): void
+    public function handle(OpenAccountCommand $command): CommandResult
     {
         $id = $this->idGenerator->generate();
         $userId = $command->userId;
@@ -49,5 +50,7 @@ final class OpenAccountCommandHandler implements OpenAccount
                 $this->eventBus->dispatch($event);
             }
         });
+
+        return CommandResult::success();
     }
 }

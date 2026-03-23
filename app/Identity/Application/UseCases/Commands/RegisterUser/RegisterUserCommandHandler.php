@@ -9,6 +9,7 @@ use App\Identity\Domain\User\PlainPassword;
 use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Domain\User\User;
 use App\Identity\Domain\User\UserId;
+use App\Shared\Application\Bus\CommandResult;
 use App\Shared\Application\Bus\EventBus;
 use App\Shared\Application\Services\IdGenerator;
 use App\Shared\Application\Services\TransactionManager;
@@ -24,7 +25,7 @@ final class RegisterUserCommandHandler
     ) {
     }
 
-    public function handle(RegisterUserCommand $command): UserId
+    public function handle(RegisterUserCommand $command): CommandResult
     {
         if ($this->users->existsByEmail(Email::fromString($command->email))) {
             throw UserAlreadyExistsException::withValue($command->email);
@@ -45,7 +46,7 @@ final class RegisterUserCommandHandler
                 $this->eventBus->dispatch($event);
             }
 
-            return UserId::fromString($id);
+            return CommandResult::success(UserId::fromString($id));
         });
     }
 }

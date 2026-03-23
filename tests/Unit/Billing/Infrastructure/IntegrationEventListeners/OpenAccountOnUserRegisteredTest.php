@@ -6,6 +6,7 @@ use App\Billing\Application\UseCases\Commands\OpenAccount\OpenAccountCommand;
 use App\Billing\Infrastructure\IntegrationEventListeners\OpenAccountOnUserRegistered;
 use App\Identity\Infrastructure\IntegrationEvents\UserRegisteredIntegrationEvent;
 use App\Shared\Application\Bus\CommandBus;
+use App\Shared\Application\Bus\CommandResult;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -22,7 +23,8 @@ class OpenAccountOnUserRegisteredTest extends TestCase
             ->method('dispatch')
             ->with($this->callback(function (OpenAccountCommand $command) use ($userId) {
                 return $command->userId === $userId && $command->balance === 0;
-            }));
+            }))
+            ->willReturn(CommandResult::success());
 
         $listener = new OpenAccountOnUserRegistered($commandBusMock);
 

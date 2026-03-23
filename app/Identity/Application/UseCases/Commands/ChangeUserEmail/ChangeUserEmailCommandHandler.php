@@ -6,6 +6,7 @@ use App\Identity\Domain\User\Email;
 use App\Identity\Domain\User\Exceptions\EmailAlreadyTakenException;
 use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Domain\User\UserId;
+use App\Shared\Application\Bus\CommandResult;
 use App\Shared\Application\Bus\EventBus;
 use App\Shared\Application\Services\TransactionManager;
 
@@ -18,7 +19,7 @@ final class ChangeUserEmailCommandHandler
     ){
     }
 
-    public function handle(ChangeUserEmailCommand $command): void
+    public function handle(ChangeUserEmailCommand $command): CommandResult
     {
         $user = $this->users->get(UserId::fromString($command->id));
 
@@ -37,5 +38,7 @@ final class ChangeUserEmailCommandHandler
                 $this->eventBus->dispatch($event);
             }
          });
+
+        return CommandResult::success();
     }
 }

@@ -34,7 +34,7 @@ class OpenAccountOnUserRegisteredTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('accounts', [
-            'user_id' => $result->value(),
+            'user_id' => $result->payload()->value(),
             'balance' => 0
         ]);
     }
