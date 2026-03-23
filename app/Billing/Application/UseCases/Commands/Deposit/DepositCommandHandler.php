@@ -8,12 +8,10 @@ use App\Billing\Domain\Account\Repositories\AccountRepository;
 use App\Billing\Domain\Account\UserId;
 use App\Shared\Application\Bus\CommandResult;
 use App\Shared\Application\Bus\EventBus;
-use App\Shared\Application\Services\TransactionManager;
 
 final class DepositCommandHandler
 {
     public function __construct(
-        private readonly TransactionManager $transactionManager,
         private readonly EventBus $eventBus,
         private readonly AccountRepository $accounts,
     ) {
@@ -27,13 +25,11 @@ final class DepositCommandHandler
 
         $account->credit($deposit);
 
-        $this->transactionManager->transactional(function () use ($account) {
-            $this->accounts->save($account);
+        $this->accounts->save($account);
 
-            foreach ($account->releaseEvents() as $event) {
-                $this->eventBus->dispatch($event);
-            }
-        });
+        foreach ($account->releaseEvents() as $event) {
+            $this->eventBus->dispatch($event);
+        }
 
         return CommandResult::success();
     }

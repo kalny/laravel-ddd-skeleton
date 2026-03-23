@@ -12,14 +12,12 @@ use App\Identity\Domain\User\UserId;
 use App\Shared\Application\Bus\CommandResult;
 use App\Shared\Application\Bus\EventBus;
 use App\Shared\Application\Services\IdGenerator;
-use App\Shared\Application\Services\TransactionManager;
 
 final class RegisterUserCommandHandler
 {
     public function __construct(
         private readonly IdGenerator $idGenerator,
         private readonly PasswordHasher $hasher,
-        private readonly TransactionManager $transactionManager,
         private readonly EventBus $eventBus,
         private readonly UserRepository $users,
     ) {
@@ -39,14 +37,12 @@ final class RegisterUserCommandHandler
             $this->hasher->hash(PlainPassword::fromString($command->password))
         );
 
-        return $this->transactionManager->transactional(function () use ($user, $command, $id) {
-            $this->users->save($user);
+        $this->users->save($user);
 
-            foreach ($user->releaseEvents() as $event) {
-                $this->eventBus->dispatch($event);
-            }
+        foreach ($user->releaseEvents() as $event) {
+            $this->eventBus->dispatch($event);
+        }
 
-            return CommandResult::success(UserId::fromString($id));
-        });
+        return CommandResult::success(UserId::fromString($id));
     }
 }

@@ -12,13 +12,11 @@ use App\Billing\Domain\Policies\DefaultCurrencyPolicy;
 use App\Shared\Application\Bus\CommandResult;
 use App\Shared\Application\Bus\EventBus;
 use App\Shared\Application\Services\IdGenerator;
-use App\Shared\Application\Services\TransactionManager;
 
 final class OpenAccountCommandHandler implements OpenAccount
 {
     public function __construct(
         private readonly IdGenerator $idGenerator,
-        private readonly TransactionManager $transactionManager,
         private readonly EventBus $eventBus,
         private readonly AccountRepository $accounts,
         private readonly DefaultCurrencyPolicy $currencyPolicy
@@ -43,13 +41,11 @@ final class OpenAccountCommandHandler implements OpenAccount
             Money::fromMinor($balance, $currency)
         );
 
-        $this->transactionManager->transactional(function () use ($account, $id, $userId, $balance) {
-            $this->accounts->save($account);
+        $this->accounts->save($account);
 
-            foreach ($account->releaseEvents() as $event) {
-                $this->eventBus->dispatch($event);
-            }
-        });
+        foreach ($account->releaseEvents() as $event) {
+            $this->eventBus->dispatch($event);
+        }
 
         return CommandResult::success();
     }

@@ -8,12 +8,10 @@ use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Domain\User\UserId;
 use App\Shared\Application\Bus\CommandResult;
 use App\Shared\Application\Bus\EventBus;
-use App\Shared\Application\Services\TransactionManager;
 
 final class ChangeUserEmailCommandHandler
 {
     public function __construct(
-        private readonly TransactionManager $transactionManager,
         private readonly EventBus $eventBus,
         private readonly UserRepository $users
     ){
@@ -31,13 +29,11 @@ final class ChangeUserEmailCommandHandler
 
         $user->changeEmail($email);
 
-        $this->transactionManager->transactional(function () use ($user) {
-            $this->users->save($user);
+        $this->users->save($user);
 
-            foreach ($user->releaseEvents() as $event) {
-                $this->eventBus->dispatch($event);
-            }
-         });
+        foreach ($user->releaseEvents() as $event) {
+            $this->eventBus->dispatch($event);
+        }
 
         return CommandResult::success();
     }
