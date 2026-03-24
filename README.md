@@ -158,6 +158,12 @@ Run migrations:
 php artisan migrate
 ```
 
+Generate Application Key:
+
+```bash
+php artisan key:generate
+```
+
 ---
 
 # Running the Project in Docker
