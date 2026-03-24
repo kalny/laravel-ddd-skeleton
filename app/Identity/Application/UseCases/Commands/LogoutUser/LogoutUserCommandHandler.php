@@ -4,7 +4,7 @@ namespace App\Identity\Application\UseCases\Commands\LogoutUser;
 
 use App\Shared\Application\Bus\CommandResult;
 
-class LogoutUserCommandHandler
+final class LogoutUserCommandHandler
 {
     public function handle(LogoutUserCommand $command): CommandResult
     {

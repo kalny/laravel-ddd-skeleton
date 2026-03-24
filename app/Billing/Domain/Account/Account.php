@@ -48,6 +48,11 @@ class Account extends AggregateRoot
         return $this->id;
     }
 
+    public function balance(): Money
+    {
+        return $this->balance;
+    }
+
     public function debit(Money $money): void
     {
         if ($this->balance->lt($money)) {

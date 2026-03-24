@@ -12,7 +12,7 @@ use App\Billing\Domain\Policies\DefaultCurrencyPolicy;
 use App\Shared\Application\Bus\CommandResult;
 use App\Shared\Application\Services\IdGenerator;
 
-final class OpenAccountCommandHandler implements OpenAccount
+final class OpenAccountCommandHandler
 {
     public function __construct(
         private readonly IdGenerator $idGenerator,

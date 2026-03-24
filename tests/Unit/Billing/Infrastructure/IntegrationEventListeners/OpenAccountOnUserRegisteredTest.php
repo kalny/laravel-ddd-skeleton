@@ -8,6 +8,7 @@ use App\Identity\Infrastructure\IntegrationEvents\UserRegisteredIntegrationEvent
 use App\Shared\Application\Bus\CommandBus;
 use App\Shared\Application\Bus\CommandResult;
 use Illuminate\Support\Str;
+use Mockery;
 use Tests\TestCase;
 
 class OpenAccountOnUserRegisteredTest extends TestCase
@@ -16,15 +17,15 @@ class OpenAccountOnUserRegisteredTest extends TestCase
     {
         $userId = Str::uuid()->toString();
 
-        $commandBusMock = $this->createMock(CommandBus::class);
+        $commandBusMock = Mockery::mock(CommandBus::class);
 
         $commandBusMock
-            ->expects($this->once())
-            ->method('dispatch')
-            ->with($this->callback(function (OpenAccountCommand $command) use ($userId) {
+            ->shouldReceive('dispatch')
+            ->once()
+            ->with(Mockery::on(function (OpenAccountCommand $command) use ($userId) {
                 return $command->userId === $userId && $command->balance === 0;
             }))
-            ->willReturn(CommandResult::success());
+            ->andReturn(CommandResult::success());
 
         $listener = new OpenAccountOnUserRegistered($commandBusMock);
 
