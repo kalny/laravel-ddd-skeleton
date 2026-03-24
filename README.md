@@ -143,8 +143,7 @@ Set up environment files:
 
 ```bash
 cp .env.example .env
-cp .env.testing.example .env.testing
-# edit variables in .env and .env.testing as needed
+# edit variables in .env as needed
 ```
 
 Install dependencies:
@@ -157,7 +156,6 @@ Run migrations:
 
 ```bash
 php artisan migrate
-php artisan migrate --env=testing
 ```
 
 ---

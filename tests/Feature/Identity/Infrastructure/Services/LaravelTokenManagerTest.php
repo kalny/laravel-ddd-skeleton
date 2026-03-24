@@ -5,13 +5,13 @@ namespace Tests\Feature\Identity\Infrastructure\Services;
 use App\Identity\Domain\User\UserId;
 use App\Identity\Infrastructure\Persistence\Eloquent\Models\User;
 use App\Identity\Infrastructure\Services\LaravelTokenManager;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\PersonalAccessToken;
 use Tests\TestCase;
 
 class LaravelTokenManagerTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     public function testCreate(): void
     {
