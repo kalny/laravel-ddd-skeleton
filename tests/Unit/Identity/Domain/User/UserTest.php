@@ -9,14 +9,13 @@ use App\Identity\Domain\User\Events\UserRegistered;
 use App\Identity\Domain\User\HashedPassword;
 use App\Identity\Domain\User\User;
 use App\Identity\Domain\User\UserId;
-use Illuminate\Support\Str;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
     public function testSuccessfullyCreateUser(): void
     {
-        $userId = UserId::fromString(Str::uuid()->toString());
+        $userId = UserId::fromString('user-id');
 
         $user = User::register(
             $userId,
@@ -38,7 +37,7 @@ class UserTest extends TestCase
 
     public function testUsersEqualsTrue(): void
     {
-        $uuid = Str::uuid()->toString();
+        $uuid = 'user-id';
 
         $firstUserId = UserId::fromString($uuid);
         $firstUser = User::register(
@@ -59,14 +58,14 @@ class UserTest extends TestCase
 
     public function testUsersEqualsFalse(): void
     {
-        $firstUserId = UserId::fromString(Str::uuid()->toString());
+        $firstUserId = UserId::fromString('user-id');
         $firstUser = User::register(
             $firstUserId,
             Email::fromString('username@test.com'),
             HashedPassword::fromHash('password'),
         );
 
-        $secondUserId = UserId::fromString(Str::uuid()->toString());
+        $secondUserId = UserId::fromString('second-user-id');
         $secondUser = User::register(
             $secondUserId,
             Email::fromString('username2@test.com'),
@@ -78,7 +77,7 @@ class UserTest extends TestCase
 
     public function testChangePasswordToSamePassword(): void
     {
-        $userId = UserId::fromString(Str::uuid()->toString());
+        $userId = UserId::fromString('user-id');
 
         $user = User::register(
             $userId,
@@ -95,7 +94,7 @@ class UserTest extends TestCase
 
     public function testChangePasswordToOtherPassword(): void
     {
-        $userId = UserId::fromString(Str::uuid()->toString());
+        $userId = UserId::fromString('user-id');
 
         $user = User::register(
             $userId,
@@ -116,7 +115,7 @@ class UserTest extends TestCase
 
     public function testChangeEmailToSameEmail(): void
     {
-        $userId = UserId::fromString(Str::uuid()->toString());
+        $userId = UserId::fromString('user-id');
 
         $user = User::register(
             $userId,
@@ -133,7 +132,7 @@ class UserTest extends TestCase
 
     public function testChangeEmailToOtherEmail(): void
     {
-        $userId = UserId::fromString(Str::uuid()->toString());
+        $userId = UserId::fromString('user-id');
 
         $user = User::register(
             $userId,
@@ -155,7 +154,7 @@ class UserTest extends TestCase
 
     public function testUserHasEmailTrue(): void
     {
-        $userId = UserId::fromString(Str::uuid()->toString());
+        $userId = UserId::fromString('user-id');
 
         $user = User::register(
             $userId,
@@ -168,7 +167,7 @@ class UserTest extends TestCase
 
     public function testUserHasEmailFalse(): void
     {
-        $userId = UserId::fromString(Str::uuid()->toString());
+        $userId = UserId::fromString('user-id');
 
         $user = User::register(
             $userId,

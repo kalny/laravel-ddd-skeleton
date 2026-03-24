@@ -3,14 +3,13 @@
 namespace Tests\Unit\Billing\Domain\Account;
 
 use App\Billing\Domain\Account\AccountId;
-use Illuminate\Support\Str;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class AccountIdTest extends TestCase
 {
     public function testSuccessfullyCreateAccountIdFromString(): void
     {
-        $uuid = Str::uuid()->toString();
+        $uuid = 'user-id';
 
         $accountId = AccountId::fromString($uuid);
         $otherAccountId = AccountId::fromString($uuid);

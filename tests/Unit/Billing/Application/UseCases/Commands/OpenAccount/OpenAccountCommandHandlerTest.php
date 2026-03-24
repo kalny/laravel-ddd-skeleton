@@ -14,9 +14,8 @@ use App\Billing\Domain\Account\Repositories\AccountRepository;
 use App\Billing\Domain\Account\UserId;
 use App\Billing\Domain\Policies\DefaultCurrencyPolicy;
 use App\Shared\Application\Services\IdGenerator;
-use Illuminate\Support\Str;
 use Mockery;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class OpenAccountCommandHandlerTest extends TestCase
 {
@@ -34,7 +33,7 @@ class OpenAccountCommandHandlerTest extends TestCase
         $this->accountRepositoryMock = Mockery::mock(AccountRepository::class);
         $this->defaultCurrencyPolicyMock = Mockery::mock(DefaultCurrencyPolicy::class);
 
-        $this->accountId = Str::uuid()->toString();
+        $this->accountId = 'account-id';
 
         $this->idGeneratorMock
             ->shouldReceive('generate')
@@ -44,7 +43,7 @@ class OpenAccountCommandHandlerTest extends TestCase
 
     public function testHandleSuccessfully(): void
     {
-        $userId = Str::uuid()->toString();
+        $userId = 'user-id';
 
         $this->accountRepositoryMock
             ->shouldReceive('existsByUserId')
@@ -100,7 +99,7 @@ class OpenAccountCommandHandlerTest extends TestCase
 
     public function testHandleAlreadyExist(): void
     {
-        $userId = Str::uuid()->toString();
+        $userId = 'user-id';
 
         $this->accountRepositoryMock
             ->shouldReceive('existsByUserId')

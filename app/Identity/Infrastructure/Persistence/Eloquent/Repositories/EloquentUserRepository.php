@@ -9,7 +9,6 @@ use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Domain\User\User;
 use App\Identity\Domain\User\UserId;
 use App\Identity\Infrastructure\Persistence\Eloquent\Models\User as UserModel;
-use App\Shared\Domain\ValueObjects\UuidId;
 use App\Shared\Infrastructure\Services\ReflectionService;
 use Throwable;
 
@@ -51,11 +50,8 @@ class EloquentUserRepository implements UserRepository
      */
     public function save(User $user): void
     {
-        /** @var UuidId $userUuidId */
-        $userUuidId = $this->reflectionService->getValue($user->id(), 'uuid');
-
         $userModel = UserModel::query()
-            ->where('id', $userUuidId->value())
+            ->where('id', $user->id()->value())
             ->first();
 
         if (!$userModel) {

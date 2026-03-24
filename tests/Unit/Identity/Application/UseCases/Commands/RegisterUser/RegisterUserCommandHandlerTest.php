@@ -14,18 +14,16 @@ use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Domain\User\User;
 use App\Identity\Domain\User\UserId;
 use App\Shared\Application\Services\IdGenerator;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Mockery;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class RegisterUserCommandHandlerTest extends TestCase
 {
     public function testHandleSuccessfully(): void
     {
-        $userId = Str::uuid()->toString();
+        $userId = 'user-id';
         $plainPassword = 'password';
-        $hashedPassword = Hash::make('password');
+        $hashedPassword = password_hash($plainPassword, PASSWORD_BCRYPT);
 
         $idGeneratorMock = Mockery::mock(IdGenerator::class);
         $passwordHasherMock = Mockery::mock(PasswordHasher::class);

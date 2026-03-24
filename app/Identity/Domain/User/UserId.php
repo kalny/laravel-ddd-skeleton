@@ -2,15 +2,10 @@
 
 namespace App\Identity\Domain\User;
 
-use App\Shared\Domain\ValueObjects\UuidId;
-
 final readonly class UserId
 {
-    private UuidId $uuid;
-
-    private function __construct(string $value)
+    private function __construct(private string $value)
     {
-        $this->uuid = new UuidId($value);
     }
 
     public static function fromString(string $value): self
@@ -20,11 +15,11 @@ final readonly class UserId
 
     public function equals(self $other): bool
     {
-        return $this->uuid->value() === $other->uuid->value();
+        return $this->value === $other->value;
     }
 
     public function value(): string
     {
-        return $this->uuid->value();
+        return $this->value;
     }
 }

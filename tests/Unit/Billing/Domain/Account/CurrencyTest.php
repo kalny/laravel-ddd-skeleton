@@ -4,7 +4,7 @@ namespace Tests\Unit\Billing\Domain\Account;
 
 use App\Billing\Domain\Account\Currency;
 use App\Billing\Domain\Account\Exceptions\InvalidCurrencyException;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class CurrencyTest extends TestCase
 {

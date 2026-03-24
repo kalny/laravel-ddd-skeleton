@@ -23,8 +23,7 @@ Folder structure:
 app
  ├── Shared
  │    ├── Domain
- │    │    ├── Exceptions
- │    │    └── ValueObjects
+ │    │    └── Exceptions
  │    │
  │    ├── Application
  │    │    ├── Bus

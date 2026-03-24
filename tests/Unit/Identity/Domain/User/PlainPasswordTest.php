@@ -4,7 +4,7 @@ namespace Tests\Unit\Identity\Domain\User;
 
 use App\Shared\Domain\Exceptions\InvalidArgumentException;
 use App\Identity\Domain\User\PlainPassword;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class PlainPasswordTest extends TestCase
 {

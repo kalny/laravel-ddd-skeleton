@@ -3,7 +3,7 @@
 namespace Tests\Unit\Shared\Infrastructure\Services;
 
 use App\Shared\Infrastructure\Services\ReflectionService;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class ReflectionServiceTest extends TestCase
 {

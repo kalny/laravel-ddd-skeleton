@@ -11,15 +11,14 @@ use App\Billing\Domain\Account\Events\AccountOpened;
 use App\Billing\Domain\Account\Exceptions\InsufficientFundsException;
 use App\Billing\Domain\Account\Money;
 use App\Billing\Domain\Account\UserId;
-use Illuminate\Support\Str;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class AccountTest extends TestCase
 {
     public function testSuccessfullyOpenAccount(): void
     {
-        $accountId = AccountId::fromString(Str::uuid()->toString());
-        $userId = UserId::fromString(Str::uuid()->toString());
+        $accountId = AccountId::fromString('account-id');
+        $userId = UserId::fromString('user-id');
 
         $usd = Currency::USD();
 
@@ -40,8 +39,8 @@ class AccountTest extends TestCase
 
     public function testSuccessfullyOpenAccountWithBalance(): void
     {
-        $accountId = AccountId::fromString(Str::uuid()->toString());
-        $userId = UserId::fromString(Str::uuid()->toString());
+        $accountId = AccountId::fromString('account-id');
+        $userId = UserId::fromString('user-id');
 
         $usd = Currency::USD();
         $account = Account::openWithBalance($accountId, $userId, Money::fromMinor(500, $usd));
@@ -61,8 +60,8 @@ class AccountTest extends TestCase
 
     public function testSuccessfullyCreditBalance(): void
     {
-        $accountId = AccountId::fromString(Str::uuid()->toString());
-        $userId = UserId::fromString(Str::uuid()->toString());
+        $accountId = AccountId::fromString('account-id');
+        $userId = UserId::fromString('user-id');
 
         $usd = Currency::USD();
 
@@ -83,8 +82,8 @@ class AccountTest extends TestCase
 
     public function testSuccessfullyDebitBalance(): void
     {
-        $accountId = AccountId::fromString(Str::uuid()->toString());
-        $userId = UserId::fromString(Str::uuid()->toString());
+        $accountId = AccountId::fromString('account-id');
+        $userId = UserId::fromString('user-id');
 
         $usd = Currency::USD();
 
@@ -114,8 +113,8 @@ class AccountTest extends TestCase
     {
         $this->expectException(InsufficientFundsException::class);
 
-        $accountId = AccountId::fromString(Str::uuid()->toString());
-        $userId = UserId::fromString(Str::uuid()->toString());
+        $accountId = AccountId::fromString('account-id');
+        $userId = UserId::fromString('user-id');
 
         $usd = Currency::USD();
 
@@ -126,8 +125,8 @@ class AccountTest extends TestCase
 
     public function testAccountBelongsToUserTrue(): void
     {
-        $accountId = AccountId::fromString(Str::uuid()->toString());
-        $userId = UserId::fromString(Str::uuid()->toString());
+        $accountId = AccountId::fromString('account-id');
+        $userId = UserId::fromString('user-id');
 
         $usd = Currency::USD();
 
@@ -138,9 +137,9 @@ class AccountTest extends TestCase
 
     public function testAccountBelongsToUserFalse(): void
     {
-        $accountId = AccountId::fromString(Str::uuid()->toString());
-        $userId = UserId::fromString(Str::uuid()->toString());
-        $otherUserId = UserId::fromString(Str::uuid()->toString());
+        $accountId = AccountId::fromString('account-id');
+        $userId = UserId::fromString('user-id');
+        $otherUserId = UserId::fromString('other-user-id');
 
         $usd = Currency::USD();
 

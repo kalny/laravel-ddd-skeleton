@@ -11,20 +11,18 @@ use App\Identity\Domain\User\HashedPassword;
 use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Domain\User\User;
 use App\Identity\Domain\User\UserId;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Mockery;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class ChangeUserEmailCommandHandlerTest extends TestCase
 {
     public function testHandleSuccessfully(): void
     {
-        $userId = Str::uuid()->toString();
+        $userId = 'user-id';
         $user = User::register(
             id: UserId::fromString($userId),
             email: Email::fromString('username@gmail.com'),
-            password: HashedPassword::fromHash(Hash::make('password'))
+            password: HashedPassword::fromHash(password_hash('password', PASSWORD_BCRYPT))
         );
         $user->releaseEvents();
 
@@ -72,11 +70,11 @@ class ChangeUserEmailCommandHandlerTest extends TestCase
 
     public function testHandleSuccessfullyWithSameEmail(): void
     {
-        $userId = Str::uuid()->toString();
+        $userId = 'user-id';
         $user = User::register(
             id: UserId::fromString($userId),
             email: Email::fromString('username@gmail.com'),
-            password: HashedPassword::fromHash(Hash::make('password'))
+            password: HashedPassword::fromHash(password_hash('password', PASSWORD_BCRYPT))
         );
         $user->releaseEvents();
 
@@ -118,11 +116,11 @@ class ChangeUserEmailCommandHandlerTest extends TestCase
 
     public function testHandleSuccessfullyWithSameEmailExistedInRepository(): void
     {
-        $userId = Str::uuid()->toString();
+        $userId = 'user-id';
         $user = User::register(
             id: UserId::fromString($userId),
             email: Email::fromString('username@gmail.com'),
-            password: HashedPassword::fromHash(Hash::make('password'))
+            password: HashedPassword::fromHash(password_hash('password', PASSWORD_BCRYPT))
         );
         $user->releaseEvents();
 

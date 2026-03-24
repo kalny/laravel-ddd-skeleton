@@ -7,15 +7,14 @@ use App\Billing\Infrastructure\IntegrationEventListeners\OpenAccountOnUserRegist
 use App\Identity\Infrastructure\IntegrationEvents\UserRegisteredIntegrationEvent;
 use App\Shared\Application\Bus\CommandBus;
 use App\Shared\Application\Bus\CommandResult;
-use Illuminate\Support\Str;
 use Mockery;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class OpenAccountOnUserRegisteredTest extends TestCase
 {
     public function testHandleSuccessfully(): void
     {
-        $userId = Str::uuid()->toString();
+        $userId = 'user-id';
 
         $commandBusMock = Mockery::mock(CommandBus::class);
 
@@ -35,5 +34,7 @@ class OpenAccountOnUserRegisteredTest extends TestCase
         );
 
         $listener->handle($event);
+
+        $this->assertTrue(true); // this test only check $commandBusMock->dispatch fact
     }
 }

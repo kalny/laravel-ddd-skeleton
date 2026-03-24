@@ -12,20 +12,18 @@ use App\Identity\Domain\User\PlainPassword;
 use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Domain\User\User;
 use App\Identity\Domain\User\UserId;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Mockery;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class ChangeUserPasswordCommandHandlerTest extends TestCase
 {
     public function testHandleSuccessfully(): void
     {
-        $userId = Str::uuid()->toString();
-        $hashedPassword = Hash::make('password');
+        $userId = 'user-id';
+        $hashedPassword = password_hash('password', PASSWORD_BCRYPT);
 
         $newPlainPassword = 'password';
-        $newHashedPassword = Hash::make('password');
+        $newHashedPassword = password_hash('password', PASSWORD_BCRYPT);
 
         $user = User::register(
             id: UserId::fromString($userId),
@@ -78,9 +76,9 @@ class ChangeUserPasswordCommandHandlerTest extends TestCase
 
     public function testHandleSuccessfullyWithSamePassword(): void
     {
-        $userId = Str::uuid()->toString();
+        $userId = 'user-id';
         $plainPassword = 'password';
-        $hashedPassword = Hash::make('password');
+        $hashedPassword = password_hash('password', PASSWORD_BCRYPT);
 
         $user = User::register(
             id: UserId::fromString($userId),

@@ -8,7 +8,7 @@ use App\Billing\Domain\Account\Exceptions\InsufficientFundsException;
 use App\Billing\Domain\Account\Exceptions\InvalidMoneyException;
 use App\Billing\Domain\Account\Exceptions\NegativeMultiplierException;
 use App\Billing\Domain\Account\Money;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class MoneyTest extends TestCase
 {

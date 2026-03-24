@@ -3,14 +3,13 @@
 namespace Tests\Unit\Identity\Domain\User;
 
 use App\Identity\Domain\User\UserId;
-use Illuminate\Support\Str;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class UserIdTest extends TestCase
 {
     public function testSuccessfullyCreateUserIdFromString(): void
     {
-        $uuid = Str::uuid()->toString();
+        $uuid = 'user-id';
 
         $userId = UserId::fromString($uuid);
         $otherUserId = UserId::fromString($uuid);

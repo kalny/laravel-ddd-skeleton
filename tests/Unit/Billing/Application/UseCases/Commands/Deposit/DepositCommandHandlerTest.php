@@ -11,16 +11,15 @@ use App\Billing\Domain\Account\Events\AccountBalanceCredited;
 use App\Billing\Domain\Account\Money;
 use App\Billing\Domain\Account\Repositories\AccountRepository;
 use App\Billing\Domain\Account\UserId;
-use Illuminate\Support\Str;
 use Mockery;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class DepositCommandHandlerTest extends TestCase
 {
     public function testHandleSuccessfully(): void
     {
-        $accountId = Str::uuid()->toString();
-        $userId = Str::uuid()->toString();
+        $accountId = 'account-id';
+        $userId = 'user-id';
 
         $account = Account::open(
             id: AccountId::fromString($accountId),

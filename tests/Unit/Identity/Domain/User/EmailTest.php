@@ -5,7 +5,7 @@ namespace Tests\Unit\Identity\Domain\User;
 use App\Identity\Domain\User\Email;
 use App\Identity\Domain\User\Exceptions\InvalidEmailException;
 use App\Shared\Domain\Exceptions\InvalidArgumentException;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class EmailTest extends TestCase
 {
