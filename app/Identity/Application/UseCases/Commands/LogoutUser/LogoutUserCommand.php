@@ -2,7 +2,9 @@
 
 namespace App\Identity\Application\UseCases\Commands\LogoutUser;
 
-final readonly class LogoutUserCommand
+use App\Shared\Application\Bus\Command;
+
+final readonly class LogoutUserCommand implements Command
 {
     public function __construct(
         public string $id

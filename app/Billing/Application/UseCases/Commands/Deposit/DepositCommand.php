@@ -2,7 +2,9 @@
 
 namespace App\Billing\Application\UseCases\Commands\Deposit;
 
-final readonly class DepositCommand
+use App\Shared\Application\Bus\Command;
+
+final readonly class DepositCommand implements Command
 {
     public function __construct(
         public string $userId,

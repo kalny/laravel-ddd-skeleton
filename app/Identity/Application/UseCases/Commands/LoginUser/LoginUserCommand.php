@@ -2,7 +2,9 @@
 
 namespace App\Identity\Application\UseCases\Commands\LoginUser;
 
-final readonly class LoginUserCommand
+use App\Shared\Application\Bus\Command;
+
+final readonly class LoginUserCommand implements Command
 {
     public function __construct(
         public string $email,

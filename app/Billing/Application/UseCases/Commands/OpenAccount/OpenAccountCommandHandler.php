@@ -9,10 +9,12 @@ use App\Billing\Domain\Account\Money;
 use App\Billing\Domain\Account\Repositories\AccountRepository;
 use App\Billing\Domain\Account\UserId;
 use App\Billing\Domain\Policies\DefaultCurrencyPolicy;
+use App\Shared\Application\Bus\Command;
+use App\Shared\Application\Bus\CommandHandler;
 use App\Shared\Application\Bus\CommandResult;
 use App\Shared\Application\Services\IdGenerator;
 
-final class OpenAccountCommandHandler
+final class OpenAccountCommandHandler implements CommandHandler
 {
     public function __construct(
         private readonly IdGenerator $idGenerator,
@@ -21,8 +23,10 @@ final class OpenAccountCommandHandler
     ) {
     }
 
-    public function handle(OpenAccountCommand $command): CommandResult
+    public function handle(Command $command): CommandResult
     {
+        /** @var OpenAccountCommand $command */
+
         $id = $this->idGenerator->generate();
         $userId = $command->userId;
         $balance = $command->balance;

@@ -2,7 +2,9 @@
 
 namespace App\Identity\Application\UseCases\Commands\RegisterUser;
 
-final readonly class RegisterUserCommand
+use App\Shared\Application\Bus\Command;
+
+final readonly class RegisterUserCommand implements Command
 {
     public function __construct(
         public string $email,

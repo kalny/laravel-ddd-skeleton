@@ -9,10 +9,12 @@ use App\Identity\Domain\User\PlainPassword;
 use App\Identity\Domain\User\Repositories\UserRepository;
 use App\Identity\Domain\User\User;
 use App\Identity\Domain\User\UserId;
+use App\Shared\Application\Bus\Command;
+use App\Shared\Application\Bus\CommandHandler;
 use App\Shared\Application\Bus\CommandResult;
 use App\Shared\Application\Services\IdGenerator;
 
-final class RegisterUserCommandHandler
+final class RegisterUserCommandHandler implements CommandHandler
 {
     public function __construct(
         private readonly IdGenerator $idGenerator,
@@ -21,8 +23,10 @@ final class RegisterUserCommandHandler
     ) {
     }
 
-    public function handle(RegisterUserCommand $command): CommandResult
+    public function handle(Command $command): CommandResult
     {
+        /** @var RegisterUserCommand $command */
+
         if ($this->users->existsByEmail(Email::fromString($command->email))) {
             throw UserAlreadyExistsException::withValue($command->email);
         }

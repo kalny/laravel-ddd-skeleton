@@ -2,7 +2,9 @@
 
 namespace App\Shared\Infrastructure\Bus;
 
+use App\Shared\Application\Bus\Command;
 use App\Shared\Application\Bus\CommandBus;
+use App\Shared\Application\Bus\CommandHandler;
 use App\Shared\Application\Bus\CommandResult;
 use App\Shared\Application\Bus\Middlewares\CommandMiddleware;
 use Closure;
@@ -21,7 +23,7 @@ class LaravelCommandBus implements CommandBus
     /**
      * @throws BindingResolutionException
      */
-    public function dispatch(object $command): CommandResult
+    public function dispatch(Command $command): CommandResult
     {
         $handlerClass = $this->resolveHandler($command);
 
@@ -32,14 +34,14 @@ class LaravelCommandBus implements CommandBus
         return $pipeline($command);
     }
 
-    private function buildPipeline(object $handler): Closure
+    private function buildPipeline(CommandHandler $handler): Closure
     {
-        $core = function (object $command) use ($handler): CommandResult {
+        $core = function (Command $command) use ($handler): CommandResult {
             return $handler->handle($command);
         };
 
         foreach (array_reverse($this->middlewares) as $middleware) {
-            $core = function (object $command) use ($middleware, $core): CommandResult {
+            $core = function (Command $command) use ($middleware, $core): CommandResult {
                 return $middleware->handle($command, $core);
             };
         }
@@ -47,7 +49,7 @@ class LaravelCommandBus implements CommandBus
         return $core;
     }
 
-    private function resolveHandler(object $command): string
+    private function resolveHandler(Command $command): string
     {
         return get_class($command) . 'Handler';
     }

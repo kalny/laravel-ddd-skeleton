@@ -2,7 +2,9 @@
 
 namespace App\Billing\Application\UseCases\Queries\GetAccount;
 
-final readonly class GetAccountQuery
+use App\Shared\Application\Bus\Query;
+
+final readonly class GetAccountQuery implements Query
 {
     public function __construct(public string $userId)
     {

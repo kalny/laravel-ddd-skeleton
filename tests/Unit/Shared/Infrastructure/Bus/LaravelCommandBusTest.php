@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Shared\Infrastructure\Bus;
 
+use App\Shared\Application\Bus\Command;
+use App\Shared\Application\Bus\CommandHandler;
 use App\Shared\Application\Bus\CommandResult;
 use App\Shared\Infrastructure\Bus\LaravelCommandBus;
 use Illuminate\Contracts\Container\Container;
@@ -26,10 +28,11 @@ class LaravelCommandBusTest extends TestCase
     }
 }
 
-class TestCommand {}
-class TestCommandHandler {
-    public function handle(TestCommand $command): CommandResult
+class TestCommand implements Command {}
+class TestCommandHandler implements CommandHandler {
+    public function handle(Command $command): CommandResult
     {
+        /** @var TestCommand $command */
         return CommandResult::success();
     }
 }

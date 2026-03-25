@@ -2,7 +2,9 @@
 
 namespace App\Identity\Application\UseCases\Commands\ChangeUserPassword;
 
-final readonly class ChangeUserPasswordCommand
+use App\Shared\Application\Bus\Command;
+
+final readonly class ChangeUserPasswordCommand implements Command
 {
     public function __construct(
         public string $id,

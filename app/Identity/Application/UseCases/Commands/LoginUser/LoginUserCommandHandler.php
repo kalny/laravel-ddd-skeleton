@@ -7,9 +7,11 @@ use App\Identity\Domain\User\Email;
 use App\Identity\Domain\User\Exceptions\InvalidCredentialsException;
 use App\Identity\Domain\User\PlainPassword;
 use App\Identity\Domain\User\Repositories\UserRepository;
+use App\Shared\Application\Bus\Command;
+use App\Shared\Application\Bus\CommandHandler;
 use App\Shared\Application\Bus\CommandResult;
 
-final class LoginUserCommandHandler
+final class LoginUserCommandHandler implements CommandHandler
 {
     public function __construct(
         private readonly PasswordHasher $hasher,
@@ -17,8 +19,10 @@ final class LoginUserCommandHandler
     ) {
     }
 
-    public function handle(LoginUserCommand $command): CommandResult
+    public function handle(Command $command): CommandResult
     {
+        /** @var LoginUserCommand $command */
+
         $user = $this->users->findByEmail(Email::fromString($command->email));
 
         if (!$user || !$this->hasher->check(PlainPassword::fromString($command->password), $user->password())) {

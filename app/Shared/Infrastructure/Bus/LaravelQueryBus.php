@@ -2,6 +2,7 @@
 
 namespace App\Shared\Infrastructure\Bus;
 
+use App\Shared\Application\Bus\Query;
 use App\Shared\Application\Bus\QueryBus;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Container\Container;
@@ -15,7 +16,7 @@ class LaravelQueryBus implements QueryBus
     /**
      * @throws BindingResolutionException
      */
-    public function ask(object $query): mixed
+    public function ask(Query $query): mixed
     {
         $handlerClass = $this->resolveHandler($query);
 
@@ -24,8 +25,8 @@ class LaravelQueryBus implements QueryBus
         return $handler->handle($query);
     }
 
-    private function resolveHandler(object $command): string
+    private function resolveHandler(Query $query): string
     {
-        return get_class($command) . 'Handler';
+        return get_class($query) . 'Handler';
     }
 }

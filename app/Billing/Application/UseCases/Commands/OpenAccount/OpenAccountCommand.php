@@ -2,7 +2,9 @@
 
 namespace App\Billing\Application\UseCases\Commands\OpenAccount;
 
-final readonly class OpenAccountCommand
+use App\Shared\Application\Bus\Command;
+
+final readonly class OpenAccountCommand implements Command
 {
     public function __construct(
         public string $userId,

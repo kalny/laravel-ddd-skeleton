@@ -2,7 +2,9 @@
 
 namespace App\Identity\Application\UseCases\Commands\ChangeUserEmail;
 
-final readonly class ChangeUserEmailCommand
+use App\Shared\Application\Bus\Command;
+
+final readonly class ChangeUserEmailCommand implements Command
 {
     public function __construct(
         public string $id,
