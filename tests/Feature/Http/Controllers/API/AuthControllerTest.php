@@ -4,7 +4,6 @@ namespace Tests\Feature\Http\Controllers\API;
 
 use App\Identity\Infrastructure\Persistence\Eloquent\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
@@ -16,7 +15,6 @@ class AuthControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Event::fake();
     }
 
     public function testRegisterSuccessfully(): void
@@ -38,8 +36,16 @@ class AuthControllerTest extends TestCase
         ]);
         $response->assertJsonPath('data.email', 'username@test.com');
 
+        $userId = $response->json('data.id');
+
         $this->assertDatabaseHas('users', [
             'email' => 'username@test.com'
+        ]);
+
+        $this->assertDatabaseHas('accounts', [
+            'user_id' => $userId,
+            'balance' => 0,
+            'currency' => 'USD'
         ]);
     }
 
