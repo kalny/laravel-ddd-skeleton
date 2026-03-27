@@ -16,6 +16,10 @@ class TransactionMiddleware implements CommandMiddleware
      */
     public function handle(Command $command, Closure $next): CommandResult
     {
+        if (DB::transactionLevel() > 1) {
+            return $next($command);
+        }
+
         return DB::transaction(function () use ($command, $next) {
             return $next($command);
         });
